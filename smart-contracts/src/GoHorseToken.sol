@@ -63,7 +63,7 @@ contract GoHorse is ERC20 {
      * @param to Endereço que receberá os tokens
      * @param amount Quantidade de tokens a serem cunhados
      */
-    function minNewTokens(address to, uint256 amount) external onlyOwner {
+    function mintNewTokens(address to, uint256 amount) external onlyOwner {
         uint256 amountToMint = amount * TOKEN_MULTIPLIER;
 
         if (totalSupply() + amountToMint > MAX_SUPPLY || amountToMint <= 0) {
