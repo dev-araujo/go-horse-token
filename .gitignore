@@ -12,3 +12,36 @@ docs/
 
 # Dotenv file
 .env
+
+# Environment variables
+.env
+.env.*
+! .env.example  # Exceção: Muitas vezes, .env.example é usado como template.
+
+# IDE/Editor
+.idea/
+.vscode/
+*.swp
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Logs
+*.log
+
+# Node.js (if applicable)
+node_modules/
+
+# Fuzzing/Invariant Testing
+cache/invariant/
+cache/fuzz/
+
+# Coverage Reports
+coverage/
+
+# Test results
+test-results.xml
+
+# Remappings (optional)
+remappings.txt
