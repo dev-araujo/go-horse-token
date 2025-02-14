@@ -21,7 +21,7 @@ contract GoHorse is ERC20 {
     uint256 private constant TOKEN_MULTIPLIER = 10 ** 18;
     address private s_owner;
 
-    uint256 public constant MAX_SUPPLY = 1000000 * TOKEN_MULTIPLIER;
+    uint256 public constant MAX_SUPPLY = 5000 * TOKEN_MULTIPLIER;
 
     event InitialSupplyMinted(address indexed to, uint256 amount);
 
