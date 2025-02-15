@@ -2,13 +2,8 @@
 pragma solidity ^0.8.28;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-
 // Erros personalizados
-
-// @notice Erro revertido quando o fornecimento inicial é inválido
 error InvalidInitialSupply();
-
-//  @notice Erro revertido quando uma função é chamada por alguém que não é o proprietário
 error OnlyOwner();
 
 /**
