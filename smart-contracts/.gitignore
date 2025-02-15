@@ -14,9 +14,9 @@ docs/
 .env
 
 # Environment variables
+! .env.example  # Exceção: Muitas vezes, .env.example é usado como template.
 .env
 .env.*
-! .env.example  # Exceção: Muitas vezes, .env.example é usado como template.
 
 # IDE/Editor
 .idea/
