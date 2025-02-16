@@ -16,6 +16,7 @@ error OnlyOwner();
 contract GoHorse is ERC20 {
     uint256 private constant TOKEN_MULTIPLIER = 10 ** 18;
     address private s_owner;
+    string private s_metadataUrl;
 
     uint256 public constant MAX_SUPPLY = 5000 * TOKEN_MULTIPLIER;
 
@@ -24,8 +25,12 @@ contract GoHorse is ERC20 {
     /**
      * @param initialSupply Quantidade inicial de tokens a serem cunhados
      */
-    constructor(uint256 initialSupply) ERC20("Go Horse", "GOHO") {
+    constructor(
+        uint256 initialSupply,
+        string memory metadataUrl
+    ) ERC20("Go Horse", "GOHO") {
         s_owner = msg.sender;
+        s_metadataUrl = metadataUrl;
         _mintInitialSupply(s_owner, initialSupply);
     }
 
@@ -75,5 +80,13 @@ contract GoHorse is ERC20 {
      */
     function getOwner() external view returns (address) {
         return s_owner;
+    }
+
+    /**
+     * @notice Retorna metadados do token GOHO
+     * @return Json dos metadados do token GOHO
+     */
+    function getMetadataUrl() external view returns (string memory) {
+        return s_metadataUrl;
     }
 }
