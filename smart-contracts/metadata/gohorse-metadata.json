@@ -2,6 +2,6 @@
   "name": "Go Horse",
   "symbol": "GOHO",
   "description": "GOHO token, um token para devs agéis",
-  "image": "https://raw.githubusercontent.com/seu-usuario/seu-repositorio/main/metadata/gohorse-image.png",
+  "image": "https://github.com/dev-araujo/go-horse-faucet/blob/main/smart-contracts/metadata/gohorse-token-image.jpg?raw=true",
   "decimals": 18
 }
