@@ -3,27 +3,32 @@ pragma solidity ^0.8.28;
 
 import "../lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
 
-// Erros personalizados
-error InvalidInitialSupply();
-error OnlyOwner();
+error InvalidInitialSupply(); /// @notice Erro lançado quando a quantidade inicial de tokens excede o limite máximo.
+error OnlyOwner(); /// @notice Erro lançado quando uma função restrita ao proprietário é chamada por outro endereço.
+error MaxSupplyExceeded(); /// @notice Erro lançado quando a mintagem ultrapassa o suprimento máximo.
 
 /**
- * @title GoHorse
+ * @title GoHorse Token (GOHO)
  * @author https://github.com/dev-araujo
- * @notice Contrato para criação do token ERC20 Go Horse
- * @dev Utiliza a biblioteca OpenZeppelin para implementação do padrão ERC20
+ * @notice Implementação de um token ERC20 para o projeto GoHorse.
+ * @dev Utiliza a biblioteca OpenZeppelin para implementação do padrão ERC20.
  */
 contract GoHorse is ERC20 {
     uint256 private constant TOKEN_MULTIPLIER = 10 ** 18;
     address private s_owner;
     string private s_metadataUrl;
+    mapping(address => bool) private minters;
 
     uint256 public constant MAX_SUPPLY = 5000 * TOKEN_MULTIPLIER;
 
+    /// @notice Evento emitido quando o suprimento inicial é mintado.
     event InitialSupplyMinted(address indexed to, uint256 amount);
+    event MinterUpdated(address indexed minter, bool status);
 
     /**
-     * @param initialSupply Quantidade inicial de tokens a serem cunhados
+     * @notice Construtor do contrato do token.
+     * @param initialSupply Quantidade inicial de tokens a serem cunhados.
+     * @param metadataUrl URL de metadados do token.
      */
     constructor(
         uint256 initialSupply,
@@ -31,62 +36,71 @@ contract GoHorse is ERC20 {
     ) ERC20("Go Horse", "GOHO") {
         s_owner = msg.sender;
         s_metadataUrl = metadataUrl;
-        _mintInitialSupply(s_owner, initialSupply);
+        minters[msg.sender] = true;
+        _mintInitialSupply(s_owner, initialSupply * TOKEN_MULTIPLIER);
     }
 
-    /**
-     * @notice Modificador para restringir funções ao proprietário
-     */
     modifier onlyOwner() {
-        if (msg.sender != s_owner) revert OnlyOwner();
+        if (msg.sender != s_owner) {
+            revert OnlyOwner();
+        }
+        _;
+    }
+
+    modifier onlyMinter() {
+        require(minters[msg.sender], "Not authorized to mint");
         _;
     }
 
     /**
-     * @notice Cunha o fornecimento inicial de tokens
-     * @dev Verifica se o fornecimento inicial é válido e cunha os tokens
-     * @param to Endereço que receberá os tokens
-     * @param initialSupply Quantidade inicial de tokens a serem cunhados
+     * @notice Define um novo minter para o contrato.
+     * @param minter O endereço que poderá mintar tokens.
+     * @param isAllowed Booleano indicando se o endereço pode ou não mintar.
      */
-    function _mintInitialSupply(address to, uint256 initialSupply) internal {
-        uint256 initialSupplyInWei = initialSupply * TOKEN_MULTIPLIER;
-
-        if (initialSupply <= 0 || initialSupplyInWei > MAX_SUPPLY)
-            revert InvalidInitialSupply();
-
-        _mint(to, initialSupplyInWei);
-        emit InitialSupplyMinted(to, initialSupplyInWei);
+    function setMinter(address minter, bool isAllowed) external onlyOwner {
+        minters[minter] = isAllowed;
+        emit MinterUpdated(minter, isAllowed);
     }
 
     /**
-     * @notice Cunha novos tokens
-     * @dev Restrito ao proprietário. Verifica se a quantidade é válida antes de cunhar
-     * @param to Endereço que receberá os tokens
-     * @param amount Quantidade de tokens a serem cunhados
+     * @notice Mintagem inicial de tokens.
+     * @param to O endereço que receberá os tokens.
+     * @param amount A quantidade de tokens a serem mintados.
      */
-    function mintNewTokens(address to, uint256 amount) external onlyOwner {
-        uint256 amountToMint = amount * TOKEN_MULTIPLIER;
-
-        if (totalSupply() + amountToMint > MAX_SUPPLY || amountToMint <= 0) {
+    function _mintInitialSupply(address to, uint256 amount) internal {
+        if (amount > MAX_SUPPLY) {
             revert InvalidInitialSupply();
         }
-
-        _mint(to, amountToMint);
+        _mint(to, amount);
+        emit InitialSupplyMinted(to, amount);
     }
 
     /**
-     * @notice Retorna o endereço do proprietário do contrato
-     * @return Endereço do proprietário
+     * @notice Mintagem de novos tokens.
+     * @dev Apenas minters podem mintar novos tokens.
+     * @param to O endereço que receberá os tokens.
+     * @param amount A quantidade de tokens a serem mintados.
      */
-    function getOwner() external view returns (address) {
-        return s_owner;
+    function mint(address to, uint256 amount) external onlyMinter {
+        if (totalSupply() + amount > MAX_SUPPLY) {
+            revert MaxSupplyExceeded();
+        }
+        _mint(to, amount);
     }
 
     /**
-     * @notice Retorna metadados do token GOHO
-     * @return Json dos metadados do token GOHO
+     * @notice Obtém a URL de metadados do token.
+     * @return A URL contendo informações sobre o token (imagem, descrição, etc.).
      */
     function getMetadataUrl() external view returns (string memory) {
         return s_metadataUrl;
+    }
+
+    /**
+     * @notice Retorna o endereço do proprietário do contrato.
+     * @return O endereço do proprietário.
+     */
+    function owner() external view returns (address) {
+        return s_owner;
     }
 }
