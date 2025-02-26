@@ -20,6 +20,16 @@ Essa aplicação será uma aplicação **fullstack web3** onde se utilizará:
 2. (Talvez) **Node.js**
 3. Uma interface para faucet com **Angular**
 
+## Progresso 🐎
+
+- [x] Criação dos smart contracts
+
+- 🏇 Testes dos smart contracts na Testnet **[Estamos aqui]**
+- [ ] Criação do backend (?)
+- [ ] Crição da interface
+- [ ] Implantação dos smart contracts na mainnet 🤠
+- [ ] Adaptação da faucet do consumo da testnet para mainnet
+
 ## Documentação
 
 - [Smarts contracts](./smart-contracts/) 
