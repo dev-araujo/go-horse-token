@@ -11,19 +11,11 @@ export class BlockchainConfig {
     this.provider
   );
 
-  public static getProvider(): ethers.Provider {
-    return this.provider;
-  }
-
   public static getSigner(): ethers.Wallet {
     return this.wallet;
   }
 
   public static getTokenAddress(): string {
     return process.env.TOKEN_ADDRESS!;
-  }
-
-  public static getFaucetAddress(): string {
-    return process.env.FAUCET_ADDRESS!;
   }
 }
