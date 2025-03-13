@@ -1,31 +1,36 @@
 import { BlockchainConfig } from "../../config/blockchain.config";
-import TokenABI from "../../contracts/GoHorse.json";
-import { TokenService } from "./token.interface";
+import { ITokenService } from "./token.interface";
 import { ethers } from "ethers";
+import goHorseAbi from "../../contracts/amoy/GoHorse.json";
 
-export class TokenServiceImpl implements TokenService {
+export class TokenService implements ITokenService {
   private contract: ethers.Contract;
 
   constructor() {
+    const tokenAddress = BlockchainConfig.getTokenAddress();
     const signer = BlockchainConfig.getSigner();
-    this.contract = new ethers.Contract(
-      BlockchainConfig.getTokenAddress(),
-      TokenABI.abi,
-      signer
+    this.contract = new ethers.Contract(tokenAddress, goHorseAbi.abi, signer);
+  }
+
+  async mintTokens(to: string, amount: number): Promise<void> {
+    const tx = await this.contract.mint(
+      to,
+      ethers.parseUnits(amount.toString(), 18)
     );
-  }
-
-  async getBalance(address: string): Promise<string> {
-    const balance = await this.contract.balanceOf(address);
-    return ethers.formatEther(balance);
-  }
-
-  async mint(to: string, amount: string): Promise<void> {
-    const tx = await this.contract.mint(to, ethers.parseEther(amount));
     await tx.wait();
   }
 
-  async owner(): Promise<string> {
+  async getMetadataAboutToken(): Promise<string> {
     return await this.contract.getMetadataUrl();
+  }
+
+  async getTotalMinted(): Promise<number> {
+    const totalMinted = await this.contract.getTotalMinted();
+    return Number(ethers.formatUnits(totalMinted, 18));
+  }
+
+  async getMaxSupply(): Promise<number> {
+    const maxSupply = await this.contract.getMaxSupply();
+    return Number(ethers.formatUnits(maxSupply, 18));
   }
 }

@@ -1,46 +1,56 @@
 import { Request, Response } from "express";
 
-import { TokenServiceImpl } from "./token.service";
+import { ITokenService } from "./token.interface";
+import { TokenService } from "./token.service";
 
 export class TokenController {
-  private tokenService: TokenServiceImpl;
+  private tokenService: ITokenService;
 
   constructor() {
-    this.tokenService = new TokenServiceImpl();
+    this.tokenService = new TokenService();
   }
 
-  async getBalance(req: Request, res: Response): Promise<void> {
-    try {
-      const { address } = req.query;
-      if (!address || typeof address !== "string") {
-        res.status(400).json({ error: "Address is required" });
-        return;
-      }
-      const balance = await this.tokenService.getBalance(address);
-      res.json({ balance });
-    } catch (error) {
-      res.status(500).json({ error: (error as Error).message });
-    }
-  }
-
-  async mint(req: Request, res: Response): Promise<void> {
+  async mintTokens(req: Request, res: Response): Promise<void> {
     try {
       const { to, amount } = req.body;
-      if (!to || !amount) {
-        res.status(400).json({ error: "To and amount are required" });
-        return;
-      }
-      await this.tokenService.mint(to, amount);
-      res.status(201).json({ message: "Tokens minted successfully" });
+      await this.tokenService.mintTokens(to, amount);
+      res.status(200).json({ message: "Tokens minted successfully" });
     } catch (error) {
       res.status(500).json({ error: (error as Error).message });
     }
   }
 
-  async getOwner(req: Request, res: Response): Promise<void> {
+  async getMetadataAboutToken(req: Request, res: Response): Promise<void> {
     try {
-      const metadataUrl = await this.tokenService.owner();
-      res.status(200).json({ metadataUrl: metadataUrl });
+      const metadataUrl = await this.tokenService.getMetadataAboutToken();
+      const metadados = {
+        url: metadataUrl,
+        name: "Go Horse",
+        symbol: "GOHO",
+        description: "GOHO token, um token para devs agéis",
+        image:
+          "https://github.com/dev-araujo/go-horse-faucet/blob/main/smart-contracts/metadata/gohorse-token-image.jpg?raw=true",
+        decimals: 18,
+      };
+      res.status(200).json(metadados);
+    } catch (error) {
+      res.status(500).json({ error: (error as Error).message });
+    }
+  }
+
+  async getTotalMinted(req: Request, res: Response): Promise<void> {
+    try {
+      const totalMinted = await this.tokenService.getTotalMinted();
+      res.status(200).json({ totalMinted });
+    } catch (error) {
+      res.status(500).json({ error: (error as Error).message });
+    }
+  }
+
+  async getMaxSupply(req: Request, res: Response): Promise<void> {
+    try {
+      const maxSupply = await this.tokenService.getMaxSupply();
+      res.status(200).json({ maxSupply });
     } catch (error) {
       res.status(500).json({ error: (error as Error).message });
     }

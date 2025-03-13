@@ -1,4 +1,6 @@
-export interface TokenService {
-  getBalance(address: string): Promise<string>;
-  mint(to: string, amount: string): Promise<void>;
+export interface ITokenService {
+  mintTokens(to: string, amount: number): Promise<void>;
+  getMetadataAboutToken(): Promise<string>;
+  getTotalMinted(): Promise<number>;
+  getMaxSupply(): Promise<number>;
 }
