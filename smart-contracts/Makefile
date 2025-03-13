@@ -22,6 +22,11 @@ compile:
 	@echo "Compilando contratos..."
 	$(FORGE) build
 
+# Limpa o cache
+clean:
+	@echo "Limpando arquivos gerados..."
+	rm -rf out broadcast cache
+
 # Faz o deploy na Polygon Amoy (testnet)
 deploy-testnet:
 	@echo "Fazendo deploy na Polygon Amoy (testnet)..."
