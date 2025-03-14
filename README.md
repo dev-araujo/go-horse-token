@@ -2,11 +2,9 @@
 
 ![Pé de pano - go horse](./assets/gohorse-pe-de-pano.jpg)
 
-GoHorse Token (GOHO) 🐴 é um token **ERC20** construído utilizando o framework **Foundry** e a biblioteca **OpenZeppelin**.
-
 O nome e símbolo do token é uma brincadeira com a metodologia **[eXtreme Go Horse](https://gohorse.com.br/extreme-go-horse-xgh.html)**
 
-Este token foi criado como um protótipo inicial para demonstrar a implementação de um token ERC20 com funcionalidades básicas, incluindo:
+GoHorse Token (GOHO) 🐴 é um token **ERC20** construído utilizando **Solidity** com o framework **Foundry** e a biblioteca **OpenZeppelin**. Com as funcionalidades:
 
 1. Cunhagem pública: Qualquer pessoa pode mintar tokens, desde que pague uma taxa de mintagem simbólica (algo entre 11 centavos). Essa taxa é enviada para um endereço específico (feeRecipient), que pode ser configurado pelo proprietário do contrato.
 2. Controle de suprimento máximo: O contrato garante que o total de tokens mintados não exceda o suprimento máximo definido (MAX_SUPPLY).
@@ -22,7 +20,7 @@ Este token foi criado como um protótipo inicial para demonstrar a implementaç�
 Essa aplicação será uma aplicação **fullstack web3** onde se utilizará:
 
 1. **Solidity** com o framework **Foundry** - Para os smart contracts
-2. (Talvez) **Node.js**
+2. **Node.js** - para uma api
 3. Uma interface para faucet com **Angular**
 
 ## Progresso 🐎
