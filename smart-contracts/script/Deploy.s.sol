@@ -8,10 +8,12 @@ contract DeployScript is Script {
     function run() external {
         vm.startBroadcast();
 
-        uint256 initialSupply = 1000;
         string
             memory metadataUrl = "https://raw.githubusercontent.com/dev-araujo/go-horse-faucet/main/smart-contracts/metadata/gohorse-metadata.json";
-        GoHorse goHorse = new GoHorse(initialSupply, metadataUrl);
+        uint256 mintFee = 0.00001 ether; // Taxa de mintagem
+        address feeRecipient = msg.sender; // Endereço que receberá a taxa de mintagem
+
+        GoHorse goHorse = new GoHorse(metadataUrl, mintFee, feeRecipient);
 
         vm.stopBroadcast();
 
