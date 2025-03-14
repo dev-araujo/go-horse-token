@@ -1,3 +1,51 @@
+# GO Horse API
+
+Essa é uma api feita com **NodeJS** + **TypeScript** + **Café** para consumir os métodos do contrato [GoHorse](../smart-contracts/), um token ERC20.
+
+## Pré-requisitos
+
+Antes de começar, certifique-se de ter instalado em sua máquina:
+
+- **Node.js:** Versão 12 ou superior.
+- **npm** (gerenciador de pacotes Node.js) ou **yarn** (gerenciador de pacotes alternativo).
+
+## Endereço do contrato na polygonscan :
+
+**Amoy Testnet** : https://amoy.polygonscan.com/address/0xC7faFBAecD64b1448d9FEf1fF138bF1b08cf943b
+**Polygon Mainnet** : Em breve...
+
+## Execução Local 👨🏼‍💻
+
+1.  **Clone o repositório:**
+
+    ```bash
+    git clone https://github.com/dev-araujo/go-horse-faucet.git
+    cd backend
+    ```
+
+2.  **Instale as dependências:**
+
+    ```bash
+    npm install
+    ```
+
+3.  **Configure o `.env`:**
+
+    Crie um arquivo `.env` na raiz do projeto. _Não_ adicione este arquivo ao controle de versão.
+
+    ```env
+    PRIVATE_KEY=<SUA_CHAVE_PRIVADA>
+    RPC_URL=<SUA_URL_RPC>
+    POLYGONSCAN_API_KEY=<SUA_CHAVE_API_ETHERSCAN>  # Opcional, para verificação
+    TOKEN_ADDRESS=ENDEREÇO_DO_DEPLOY_DO_CONTRATO
+    ```
+
+4.  **Executando:**
+
+    ```bash
+    npm run dev
+    ```
+
 ### 1. **Mint Tokens**
 
 - **Descrição**: Mint novos tokens para um endereço específico.

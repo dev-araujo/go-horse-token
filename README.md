@@ -1,20 +1,25 @@
-# Go Horse Token e Faucet  🐴 
+# Go Horse Token e Faucet 🐴
 
 ![Pé de pano - go horse](./assets/gohorse-pe-de-pano.jpg)
 
-GoHorse Token (GOHO) 🐴 é um token ERC20 construído utilizando o framework Foundry e a biblioteca OpenZeppelin.
+GoHorse Token (GOHO) 🐴 é um token **ERC20** construído utilizando o framework **Foundry** e a biblioteca **OpenZeppelin**.
 
 O nome e símbolo do token é uma brincadeira com a metodologia **[eXtreme Go Horse](https://gohorse.com.br/extreme-go-horse-xgh.html)**
 
 Este token foi criado como um protótipo inicial para demonstrar a implementação de um token ERC20 com funcionalidades básicas, incluindo:
 
-1. Cunhagem controlada 
-2. Uma faucet para distribuição inicial gratuita(depois com custos cobertos pelos interessados). 
+1. Cunhagem pública: Qualquer pessoa pode mintar tokens, desde que pague uma taxa de mintagem simbólica (algo entre 11 centavos). Essa taxa é enviada para um endereço específico (feeRecipient), que pode ser configurado pelo proprietário do contrato.
+2. Controle de suprimento máximo: O contrato garante que o total de tokens mintados não exceda o suprimento máximo definido (MAX_SUPPLY).
+3. Taxa de mintagem ajustável: O proprietário do contrato pode atualizar a taxa de mintagem (mintFee) e o endereço que recebe as taxas (feeRecipient).
 
 **Embora seja um protótipo, o GoHorse Token tem como objetivo ser implantado na rede principal da Polygon.**
 
-Essa aplicação será uma aplicação **fullstack web3** onde se utilizará:
+## Endereço do contrato na polygonscan :
 
+**Amoy Testnet** : https://amoy.polygonscan.com/address/0xC7faFBAecD64b1448d9FEf1fF138bF1b08cf943b
+**Polygon Mainnet** : Em breve...
+
+Essa aplicação será uma aplicação **fullstack web3** onde se utilizará:
 
 1. **Solidity** com o framework **Foundry** - Para os smart contracts
 2. (Talvez) **Node.js**
@@ -32,7 +37,6 @@ Essa aplicação será uma aplicação **fullstack web3** onde se utilizará:
 
 ## Documentação
 
-- [Smarts contracts](./smart-contracts/) 
-- [Backend]() - Em breve
+- [Smarts contracts](./smart-contracts/)
+- [Backend](./backend/)
 - [Frontend]() - Em breve
-

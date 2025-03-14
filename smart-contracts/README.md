@@ -10,9 +10,9 @@ Este repositório contém o contrato:
 
 - **GoHorseToken.sol**: Implementação do token ERC20 GoHorse com mintagem pública e taxa de mintagem.
 
-## Endereço do contrato :
+## Endereço do contrato na polygonscan :
 
-**Amoy Testnet** : `0xC7faFBAecD64b1448d9FEf1fF138bF1b08cf943b`
+**Amoy Testnet** : https://amoy.polygonscan.com/address/0xC7faFBAecD64b1448d9FEf1fF138bF1b08cf943b
 **Polygon Mainnet** : Em breve...
 
 ## Pré-requisitos 🔨
@@ -43,7 +43,7 @@ Este repositório contém o contrato:
     PRIVATE_KEY=<SUA_CHAVE_PRIVADA>
     POLYGON_AMOY_RPC_URL=<SUA_URL_RPC_AMOY>
     POLYGON_MAINNET_RPC_URL=<SUA_URL_RPC_MAINNET>
-    ETHERSCAN_API_KEY=<SUA_CHAVE_API_ETHERSCAN>  # Opcional, para verificação
+    POLYGONSCAN_API_KEY=<SUA_CHAVE_API_ETHERSCAN>  # Opcional, para verificação
     ```
 
 4.  **Compile:**
