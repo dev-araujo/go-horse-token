@@ -43,12 +43,17 @@ contract GoHorse is ERC20, Ownable {
      * @param to Endereço que receberá os tokens.
      * @param amount Quantidade de tokens a serem mintados.
      */
-    function mint(address to, uint256 amount) external payable onlyOwner {
+    function mint(address to, uint256 amount) external payable {
         if (s_totalMinted + amount > MAX_SUPPLY) {
             revert ExceedsMaxSupply();
         }
-        if (msg.value < mintFee * amount) {
-            revert("Insufficient fee");
+        uint256 tokenAmount = amount / (10 ** 18);
+        if (amount % (10 ** 18) != 0) {
+            revert("A mintagem deve ser um numero inteiro");
+        }
+        uint256 requiredFee = mintFee * tokenAmount;
+        if (msg.value < requiredFee) {
+            revert("Saldo Insuficiente");
         }
         _mint(to, amount);
         s_totalMinted += amount;
