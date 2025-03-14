@@ -5,7 +5,6 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 error ExceedsMaxSupply(); // Erro lançado quando a mintagem excede o suprimento máximo.
-error InvalidInitialSupply(); // Erro lançado quando o suprimento inicial excede o limite máximo.
 
 /**
  * @title GoHorse Token (GOHO)
@@ -15,25 +14,27 @@ error InvalidInitialSupply(); // Erro lançado quando o suprimento inicial exced
  */
 
 contract GoHorse is ERC20, Ownable {
-    uint256 public constant MAX_SUPPLY = 5000 * 10 ** 18;
+    uint256 public constant MAX_SUPPLY = 10000 * 10 ** 18;
     string private s_metadataUrl;
     uint256 private s_totalMinted;
+    uint256 public mintFee;
+    address public feeRecipient;
 
     /**
      * @notice Construtor do contrato do token.
-     * @param initialSupply Quantidade inicial de tokens a serem mintados.
      * @param metadataUrl URL de metadados do token.
+     * @param _mintFee Taxa de mintagem em wei.
+     * @param _feeRecipient Endereço que receberá a taxa de mintagem.
      */
     constructor(
-        uint256 initialSupply,
-        string memory metadataUrl
+        string memory metadataUrl,
+        uint256 _mintFee,
+        address _feeRecipient
     ) ERC20("Go Horse", "GOHO") Ownable(msg.sender) {
-        if (initialSupply > MAX_SUPPLY) {
-            revert InvalidInitialSupply();
-        }
         s_metadataUrl = metadataUrl;
-        _mint(msg.sender, initialSupply * 10 ** decimals());
-        s_totalMinted = initialSupply * 10 ** decimals();
+        mintFee = _mintFee;
+        feeRecipient = _feeRecipient;
+        s_totalMinted = 0;
     }
 
     /**
@@ -42,12 +43,16 @@ contract GoHorse is ERC20, Ownable {
      * @param to Endereço que receberá os tokens.
      * @param amount Quantidade de tokens a serem mintados.
      */
-    function mint(address to, uint256 amount) external onlyOwner {
+    function mint(address to, uint256 amount) external payable onlyOwner {
         if (s_totalMinted + amount > MAX_SUPPLY) {
             revert ExceedsMaxSupply();
         }
+        if (msg.value < mintFee * amount) {
+            revert("Insufficient fee");
+        }
         _mint(to, amount);
         s_totalMinted += amount;
+        payable(feeRecipient).transfer(msg.value);
     }
 
     /**
@@ -72,5 +77,23 @@ contract GoHorse is ERC20, Ownable {
      */
     function getMaxSupply() external pure returns (uint256) {
         return MAX_SUPPLY;
+    }
+
+    /**
+     * @notice Atualiza a taxa de mintagem.
+     * @dev Apenas o proprietário pode atualizar a taxa.
+     * @param _mintFee Taxa de mintagem em wei.
+     */
+    function setMintFee(uint256 _mintFee) external onlyOwner {
+        mintFee = _mintFee;
+    }
+
+    /**
+     * @notice Atualiza o endereço que recebe a taxa de mintagem.
+     * @dev Apenas o proprietário pode atualizar o endereço.
+     * @param _feeRecipient Endereço que receberá a taxa de mintagem.
+     */
+    function setFeeRecipient(address _feeRecipient) external onlyOwner {
+        feeRecipient = _feeRecipient;
     }
 }
