@@ -1,4 +1,3 @@
-import { TokenController } from "./features/token/token.controller";
 import { TokenRoutes } from "./features/token/token.routes";
 import express from "express";
 

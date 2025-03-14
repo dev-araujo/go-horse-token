@@ -5,3 +5,11 @@ export interface ITokenService {
   getMaxSupply(): Promise<number>;
   getMintFee(): Promise<number>;
 }
+
+export interface MintTokenReturn {
+  hash: string;
+  amountMinted: number;
+  balanceInGohoAfterMint: number;
+  mintFee: string;
+  totalFeeWei: string;
+}

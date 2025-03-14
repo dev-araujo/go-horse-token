@@ -13,8 +13,11 @@ export class TokenController {
   async mintTokens(req: Request, res: Response): Promise<void> {
     try {
       const { to, amount } = req.body;
-      await this.tokenService.mintTokens(to, amount);
-      res.status(200).json({ message: "Tokens minted successfully" });
+      const data = await this.tokenService.mintTokens(to, amount);
+      res.status(200).json({
+        message: `${amount} tokens GOHO mintados com sucesso! Parabéns dev GOHOOOOOOOO`,
+        data,
+      });
     } catch (error) {
       res.status(500).json({ error: (error as Error).message });
     }
@@ -41,7 +44,7 @@ export class TokenController {
   async getTotalMinted(req: Request, res: Response): Promise<void> {
     try {
       const totalMinted = await this.tokenService.getTotalMinted();
-      res.status(200).json({ totalMinted });
+      res.status(200).json({ total: totalMinted });
     } catch (error) {
       res.status(500).json({ error: (error as Error).message });
     }
@@ -50,7 +53,7 @@ export class TokenController {
   async getMaxSupply(req: Request, res: Response): Promise<void> {
     try {
       const maxSupply = await this.tokenService.getMaxSupply();
-      res.status(200).json({ maxSupply });
+      res.status(200).json({ max: maxSupply });
     } catch (error) {
       res.status(500).json({ error: (error as Error).message });
     }
@@ -59,7 +62,7 @@ export class TokenController {
   async getMintFee(req: Request, res: Response): Promise<void> {
     try {
       const mintFee = await this.tokenService.getMintFee();
-      res.status(200).json({ mintFee });
+      res.status(200).json({ fee: mintFee });
     } catch (error) {
       res.status(500).json({ error: (error as Error).message });
     }
