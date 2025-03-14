@@ -3,4 +3,5 @@ export interface ITokenService {
   getMetadataAboutToken(): Promise<string>;
   getTotalMinted(): Promise<number>;
   getMaxSupply(): Promise<number>;
+  getMintFee(): Promise<number>;
 }

@@ -55,4 +55,13 @@ export class TokenController {
       res.status(500).json({ error: (error as Error).message });
     }
   }
+
+  async getMintFee(req: Request, res: Response): Promise<void> {
+    try {
+      const mintFee = await this.tokenService.getMintFee();
+      res.status(200).json({ mintFee });
+    } catch (error) {
+      res.status(500).json({ error: (error as Error).message });
+    }
+  }
 }

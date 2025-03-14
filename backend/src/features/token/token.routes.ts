@@ -31,6 +31,11 @@ export class TokenRoutes {
     this.router.get("/max-supply", (req, res) =>
       this.tokenController.getMaxSupply(req, res)
     );
+
+    // GET /token/mint-fee - Retorna a taxa de mintagem atual
+    this.router.get("/mint-fee", (req, res) =>
+      this.tokenController.getMintFee(req, res)
+    );
   }
 
   public getRouter(): Router {
