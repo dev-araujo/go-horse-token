@@ -1,0 +1,43 @@
+@use "../../../styles/colors.scss" as color;
+
+.topnavbar {
+  width: 100%;
+  padding: 10px 20px;
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: color.$primary-text;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+
+    nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: color.$primary-text;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    nav a.active {
+      color: color.$accent-color;
+    }
+
+    .connect-btn {
+      background: color.$accent-color;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+  }
+}
