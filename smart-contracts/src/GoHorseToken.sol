@@ -1,24 +1,31 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
+import "openzeppelin-contracts/contracts/access/Ownable.sol";
+import "openzeppelin-contracts/contracts/utils/ReentrancyGuard.sol";
 
-error ExceedsMaxSupply(); // Erro lançado quando a mintagem excede o suprimento máximo.
+error ExceedsMaxSupply();
+error InvalidAmount();
+error InsufficientBalance();
+error TransferFailed();
 
 /**
  * @title GoHorse Token (GOHO)
  * @author https://github.com/dev-araujo
- * @notice Implementação de um token ERC20 para o projeto GoHorse.
- * @dev Utiliza a biblioteca OpenZeppelin para implementação do padrão ERC20.
+ * @notice Implementação segura e otimizada de um token ERC20 para o projeto GoHorse.
+ * @dev Utiliza a biblioteca OpenZeppelin para implementação do padrão ERC20 com proteção contra reentrância.
  */
-
-contract GoHorse is ERC20, Ownable {
+contract GoHorse is ERC20, Ownable, ReentrancyGuard {
     uint256 public constant MAX_SUPPLY = 10000 * 10 ** 18;
     string private s_metadataUrl;
     uint256 private s_totalMinted;
     uint256 public mintFee;
     address public feeRecipient;
+
+    event TokensMinted(address indexed to, uint256 amount);
+    event MintFeeUpdated(uint256 newFee);
+    event FeeRecipientUpdated(address newRecipient);
 
     /**
      * @notice Construtor do contrato do token.
@@ -34,35 +41,68 @@ contract GoHorse is ERC20, Ownable {
         s_metadataUrl = metadataUrl;
         mintFee = _mintFee;
         feeRecipient = _feeRecipient;
-        s_totalMinted = 0;
     }
 
     /**
      * @notice Mintagem de novos tokens.
-     * @dev Apenas o proprietário pode mintar novos tokens.
+     * @dev Protegido contra reentrância e com verificações de segurança.
      * @param to Endereço que receberá os tokens.
-     * @param amount Quantidade de tokens a serem mintados.
+     * @param amount Quantidade de tokens a serem mintados (em wei).
      */
-    function mint(address to, uint256 amount) external payable {
+    function mint(address to, uint256 amount) external payable nonReentrant {
+        if (amount % (10 ** 18) != 0) {
+            revert InvalidAmount();
+        }
+
         if (s_totalMinted + amount > MAX_SUPPLY) {
             revert ExceedsMaxSupply();
         }
+
         uint256 tokenAmount = amount / (10 ** 18);
-        if (amount % (10 ** 18) != 0) {
-            revert("A mintagem deve ser um numero inteiro");
-        }
         uint256 requiredFee = mintFee * tokenAmount;
+
         if (msg.value < requiredFee) {
-            revert("Saldo Insuficiente");
+            revert InsufficientBalance();
         }
+
         _mint(to, amount);
         s_totalMinted += amount;
-        payable(feeRecipient).transfer(msg.value);
+
+        if (msg.value > 0) {
+            (bool success, ) = feeRecipient.call{value: msg.value}("");
+            if (!success) {
+                revert TransferFailed();
+            }
+        }
+
+        emit TokensMinted(to, amount);
     }
 
     /**
+     * @notice Atualiza a taxa de mintagem.
+     * @dev Apenas o proprietário pode atualizar a taxa.
+     * @param _mintFee Nova taxa de mintagem em wei.
+     */
+    function setMintFee(uint256 _mintFee) external onlyOwner {
+        mintFee = _mintFee;
+        emit MintFeeUpdated(_mintFee);
+    }
+
+    /**
+     * @notice Atualiza o endereço que recebe a taxa de mintagem.
+     * @dev Apenas o proprietário pode atualizar o endereço.
+     * @param _feeRecipient Novo endereço que receberá a taxa.
+     */
+    function setFeeRecipient(address _feeRecipient) external onlyOwner {
+        require(_feeRecipient != address(0), "Invalid address");
+        feeRecipient = _feeRecipient;
+        emit FeeRecipientUpdated(_feeRecipient);
+    }
+
+
+    /**
      * @notice Retorna a URL de metadados do token.
-     * @return A URL contendo informações sobre o token (imagem, descrição, etc.).
+     * @return A URL contendo informações sobre o token.
      */
     function getMetadataUrl() external view returns (string memory) {
         return s_metadataUrl;
@@ -82,23 +122,5 @@ contract GoHorse is ERC20, Ownable {
      */
     function getMaxSupply() external pure returns (uint256) {
         return MAX_SUPPLY;
-    }
-
-    /**
-     * @notice Atualiza a taxa de mintagem.
-     * @dev Apenas o proprietário pode atualizar a taxa.
-     * @param _mintFee Taxa de mintagem em wei.
-     */
-    function setMintFee(uint256 _mintFee) external onlyOwner {
-        mintFee = _mintFee;
-    }
-
-    /**
-     * @notice Atualiza o endereço que recebe a taxa de mintagem.
-     * @dev Apenas o proprietário pode atualizar o endereço.
-     * @param _feeRecipient Endereço que receberá a taxa de mintagem.
-     */
-    function setFeeRecipient(address _feeRecipient) external onlyOwner {
-        feeRecipient = _feeRecipient;
     }
 }
