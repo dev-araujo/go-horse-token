@@ -16,9 +16,10 @@ export class TokenService implements ITokenService {
   async mintTokens(to: string, amount: number): Promise<MintTokenReturn> {
     try {
       const mintFee = await this.contract.mintFee();
-      const totalFee = BigInt(mintFee) * BigInt(amount);
+      const integerAmount = Math.floor(amount);
+      const totalFee = BigInt(mintFee) * BigInt(integerAmount);
 
-      const amountInWei = ethers.parseUnits(amount.toString(), 18);
+      const amountInWei = ethers.parseUnits(integerAmount.toString(), 18);
       const tx = await this.contract.mint(to, amountInWei, {
         value: totalFee.toString(),
       });
@@ -28,32 +29,34 @@ export class TokenService implements ITokenService {
 
       return {
         hash: tx.hash,
-        amountMinted: amount.toString(),
+        amountMinted: integerAmount.toString(),
         balanceInGohoAfterMint: balance.toString(),
         mintFee: ethers.formatEther(mintFee),
         totalFeeWei: totalFee.toString(),
         totalFeeEth: ethers.formatEther(totalFee),
       };
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : "Unknown error";
-      const errorReason = error instanceof Error ? (error as any).reason : undefined;
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error";
+      const errorReason =
+        error instanceof Error ? (error as any).reason : undefined;
 
-      const errorKey = Object.keys(ERROR_MAPPINGS).find(key => 
+      const errorKey = Object.keys(ERROR_MAPPINGS).find((key) =>
         errorReason?.includes(key)
       );
-      
+
       if (errorKey) {
         throw new Error(ERROR_MAPPINGS[errorKey]);
       }
       throw new Error(`Failed to mint tokens: ${errorMessage}`);
     }
   }
-
   async getMetadataAboutToken(): Promise<string> {
     try {
       return await this.contract.getMetadataUrl();
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error";
       throw new Error(`Failed to fetch metadata: ${errorMessage}`);
     }
   }
@@ -63,7 +66,8 @@ export class TokenService implements ITokenService {
       const totalMinted = await this.contract.getTotalMinted();
       return Number(ethers.formatUnits(totalMinted, 18));
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error";
       throw new Error(`Failed to fetch total minted: ${errorMessage}`);
     }
   }
@@ -73,7 +77,8 @@ export class TokenService implements ITokenService {
       const maxSupply = await this.contract.getMaxSupply();
       return Number(ethers.formatUnits(maxSupply, 18));
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error";
       throw new Error(`Failed to fetch max supply: ${errorMessage}`);
     }
   }
@@ -83,7 +88,8 @@ export class TokenService implements ITokenService {
       const mintFee = await this.contract.mintFee();
       return Number(ethers.formatEther(mintFee));
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error";
       throw new Error(`Failed to fetch mint fee: ${errorMessage}`);
     }
   }
@@ -93,7 +99,8 @@ export class TokenService implements ITokenService {
       const balance = await this.contract.balanceOf(address);
       return Number(ethers.formatUnits(balance, 18));
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error";
       throw new Error(`Failed to fetch balance: ${errorMessage}`);
     }
   }

@@ -52,12 +52,6 @@ contract GoHorseTest is Test {
         token.mint{value: requiredFee}(address(0), amount);
     }
 
-    function testMintInvalidAmount() public {
-        vm.prank(user);
-        vm.expectRevert(InvalidAmount.selector);
-        token.mint{value: mintFee}(user, 0.5 * 10 ** 18);
-    }
-
     function testMintExceedsMaxSupply() public {
         token.setMintFee(0); // Evita chamada externa
         uint256 amount = 10001 * 10 ** 18;

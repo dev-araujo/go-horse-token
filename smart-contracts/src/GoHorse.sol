@@ -6,7 +6,6 @@ import "openzeppelin-contracts/contracts/access/Ownable.sol";
 import "openzeppelin-contracts/contracts/utils/ReentrancyGuard.sol";
 
 error ExceedsMaxSupply();
-error InvalidAmount();
 error InsufficientBalance();
 error TransferFailed();
 error ExactFeeRequired();
@@ -54,9 +53,7 @@ contract GoHorse is ERC20, Ownable, ReentrancyGuard {
      */
     function mint(address to, uint256 amount) external payable nonReentrant {
         require(to != address(0), "Invalid recipient");
-        if (amount % (10 ** 18) != 0) {
-            revert InvalidAmount();
-        }
+
         if (s_totalMinted + amount > MAX_SUPPLY) {
             revert ExceedsMaxSupply();
         }
