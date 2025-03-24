@@ -3,6 +3,12 @@ src = "src"
 out = "out"
 libs = [ "lib" ]
 
+[etherscan]
+amoy = { key = "${POLYGONSCAN_API_KEY}" } 
+
+
+[chains.amoy]
+chain_id = 23295
 
 [rpc_endpoints]
 polygon_amoy = "${POLYGON_AMOY_RPC_URL}"
