@@ -12,17 +12,21 @@ SCRIPT := script/Deploy.s.sol
 TESTNET_RPC_URL := $(POLYGON_AMOY_RPC_URL)
 MAINNET_RPC_URL := $(POLYGON_MAINNET_RPC_URL)
 
+# Variáveis
+CONTRACT_ADDRESS := 0xDBDA06E01713eD143cEA28b68B7C194372860CED
+CONTRACT_NAME := GoHorse
+
 # Comandos
-.PHONY: all compile deploy-testnet deploy-mainnet
+.PHONY: all compile deploy-testnet deploy-mainnet verify-amoy clean
 
 all: compile
 
 # Compila os contratos
 compile:
 	@echo "Compilando contratos..."
-	$(FORGE) build
+	$(FORGE) build --build-info
 
-# Limpa o cache
+# Limpa o cache e arquivos de build
 clean:
 	@echo "Limpando arquivos gerados..."
 	rm -rf out broadcast cache
@@ -36,3 +40,17 @@ deploy-testnet:
 deploy-mainnet:
 	@echo "Fazendo deploy na Polygon Mainnet..."
 	$(FORGE) script $(SCRIPT) --rpc-url $(MAINNET_RPC_URL) --broadcast --verify --private-key $(PRIVATE_KEY) -vvvv
+
+# Verifica o contrato na Polygon Amoy
+verify-amoy:
+	@echo "Verificando contrato na Polygon Amoy..."
+	$(FORGE) verify-contract \
+		--chain-id 80002 \
+		--verifier etherscan \
+		--verifier-url https://api-amoy.polygonscan.com/api \
+		--etherscan-api-key $(POLYGONSCAN_API_KEY) \
+		$(CONTRACT_ADDRESS) \
+		src/GoHorse.sol:GoHorse \
+		--compiler-version "0.8.28" \
+		--num-of-optimizations 200 \
+		--watch
