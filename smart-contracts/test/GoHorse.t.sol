@@ -2,128 +2,100 @@
 pragma solidity ^0.8.28;
 
 import "forge-std/Test.sol";
-import "../src/GoHorseToken.sol";
+import "../src/GoHorse.sol";
+import "../src/IGoHorse.sol"; // Importe a interface
 
-contract GoHorseMintTest is Test {
-    GoHorse public goHorse;
-    address public user = address(0x2);
-    address public feeRecipient = address(0x3);
-    uint256 public constant MAX_SUPPLY = 10000 * 10 ** 18;
-    string public metadataUrl = "https://example.com/metadata.json";
-    uint256 public mintFee = 0.00001 ether;
+contract GoHorseTest is Test {
+    GoHorse token;
+    address owner = address(this);
+    address user = address(0x1);
+    address feeRecipient = address(0x2);
+    uint256 mintFee = 0.1 ether;
+    string metadataUrl = "https://example.com/metadata.json";
 
     function setUp() public {
-        goHorse = new GoHorse(metadataUrl, mintFee, feeRecipient);
-
-        vm.deal(user, 1 ether);
+        token = new GoHorse(metadataUrl, mintFee, feeRecipient);
+        vm.deal(user, 10 ether);
     }
 
-    /// @notice Testa a mintagem com a taxa correta
-    function testMintWithCorrectFee() public {
+    function testInitialState() public view {
+        assertEq(token.name(), "Go Horse");
+        assertEq(token.symbol(), "GOHO");
+        assertEq(token.getMaxSupply(), 10000 * 10 ** 18);
+        assertEq(token.mintFee(), mintFee);
+        assertEq(token.feeRecipient(), feeRecipient);
+        assertEq(token.getMetadataUrl(), metadataUrl);
+        assertEq(token.getTotalMinted(), 0);
+    }
+
+    function testMintSuccess() public {
         uint256 amount = 1 * 10 ** 18;
-        uint256 requiredFee = mintFee;
+        uint256 requiredFee = mintFee * (amount / 10 ** 18);
 
         vm.prank(user);
-        goHorse.mint{value: requiredFee}(user, amount);
+        vm.expectEmit(true, true, false, true, address(token));
+        emit IGoHorse.FeeTransferred(feeRecipient, requiredFee);
+        emit IGoHorse.TokensMinted(user, amount);
+        token.mint{value: requiredFee}(user, amount);
 
-        assertEq(
-            goHorse.balanceOf(user),
-            amount,
-            "Saldo do usuario deveria ser 1 token"
-        );
-        assertEq(
-            goHorse.getTotalMinted(),
-            amount,
-            "Total mintado deveria ser 1 token"
-        );
-        assertEq(
-            address(feeRecipient).balance,
-            requiredFee,
-            "FeeRecipient deveria receber a taxa"
-        );
+        assertEq(token.balanceOf(user), amount);
+        assertEq(token.getTotalMinted(), amount);
+        assertEq(feeRecipient.balance, requiredFee);
     }
 
-    /// @notice Testa a mintagem com taxa insuficiente
-    function testMintWithInsufficientFee() public {
+    function testMintInvalidRecipient() public {
         uint256 amount = 1 * 10 ** 18;
-        uint256 insufficientFee = mintFee / 2;
+        uint256 requiredFee = mintFee * (amount / 10 ** 18);
 
         vm.prank(user);
-        vm.expectRevert("Insufficient fee");
-        goHorse.mint{value: insufficientFee}(user, amount);
+        vm.expectRevert("Invalid recipient");
+        token.mint{value: requiredFee}(address(0), amount);
     }
 
-    /// @notice Testa a mintagem de múltiplos tokens
-    function testMintMultipleTokens() public {
-        uint256 amount = 3 * 10 ** 18;
-        uint256 tokenAmount = amount / (10 ** 18);
-        uint256 requiredFee = mintFee * tokenAmount;
-
+    function testMintInvalidAmount() public {
         vm.prank(user);
-        goHorse.mint{value: requiredFee}(user, amount);
-
-        assertEq(
-            goHorse.balanceOf(user),
-            amount,
-            "Saldo do usuario deveria ser 3 tokens"
-        );
-        assertEq(
-            goHorse.getTotalMinted(),
-            amount,
-            "Total mintado deveria ser 3 tokens"
-        );
-        assertEq(
-            address(feeRecipient).balance,
-            requiredFee,
-            "FeeRecipient deveria receber a taxa total"
-        );
+        vm.expectRevert(InvalidAmount.selector);
+        token.mint{value: mintFee}(user, 0.5 * 10 ** 18);
     }
 
-    /// @notice Testa a mintagem excedendo o MAX_SUPPLY
     function testMintExceedsMaxSupply() public {
-        uint256 amount = MAX_SUPPLY + 1;
-        uint256 tokenAmount = amount / (10 ** 18);
-        uint256 requiredFee = mintFee * tokenAmount;
+        token.setMintFee(0); // Evita chamada externa
+        uint256 amount = 10001 * 10 ** 18;
 
         vm.prank(user);
         vm.expectRevert(ExceedsMaxSupply.selector);
-        goHorse.mint{value: requiredFee}(user, amount);
+        token.mint{value: 0}(user, amount);
     }
 
-    /// @notice Testa a mintagem com amount não divisível por 10^18
-    function testMintWithFractionalAmountReverts() public {
-        uint256 amount = 1 * 10 ** 18 + 1;
-        uint256 tokenAmount = amount / (10 ** 18);
-        uint256 requiredFee = mintFee * tokenAmount;
-
+    function testMintInsufficientFee() public {
         vm.prank(user);
-        vm.expectRevert("Amount must be a whole number of tokens");
-        goHorse.mint{value: requiredFee}(user, amount);
+        vm.expectRevert(InsufficientBalance.selector);
+        token.mint{value: mintFee - 1}(user, 1 * 10 ** 18);
     }
 
-    /// @notice Testa a mintagem com msg.value maior que a taxa necessária
-    function testMintWithExcessFee() public {
+    function testMintExcessFee() public {
         uint256 amount = 1 * 10 ** 18;
-        uint256 requiredFee = mintFee;
-        uint256 excessFee = requiredFee * 2;
+        uint256 requiredFee = mintFee * (amount / 10 ** 18);
 
         vm.prank(user);
-        goHorse.mint{value: excessFee}(user, amount);
+        vm.expectRevert(ExactFeeRequired.selector);
+        token.mint{value: requiredFee + 1}(user, amount);
+    }
 
-        assertEq(
-            goHorse.balanceOf(user),
-            amount,
-            "Saldo do usuario deveria ser 1 token"
-        );
-        assertEq(
-            goHorse.getTotalMinted(),
-            amount,
-            "Total mintado deveria ser 1 token"
-        );
-        assertEq(
-            address(feeRecipient).balance,
-            excessFee,
-            "FeeRecipient deveria receber todo o msg.value"
-        );
+    function testSetMintFee() public {
+        uint256 newFee = 0.2 ether;
+        token.setMintFee(newFee);
+        assertEq(token.mintFee(), newFee);
+    }
+
+    function testSetFeeRecipient() public {
+        address newRecipient = address(0x3);
+        token.setFeeRecipient(newRecipient);
+        assertEq(token.feeRecipient(), newRecipient);
+    }
+
+    function testSetFeeRecipientInvalid() public {
+        vm.expectRevert("Invalid address");
+        token.setFeeRecipient(address(0));
     }
 }

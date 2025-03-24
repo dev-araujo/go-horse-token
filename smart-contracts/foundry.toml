@@ -1,19 +1,18 @@
 [profile.default]
 src = "src"
 out = "out"
-libs = [ "lib" ]
+test = "test"
+libs = ["lib"]
 
-[etherscan]
-amoy = { key = "${POLYGONSCAN_API_KEY}" } 
+[profile.default.etherscan]
+amoy = { key = "${POLYGONSCAN_API_KEY}" }
 
+[profile.default.chains]
+amoy = { chain_id = 23295 }
 
-[chains.amoy]
-chain_id = 23295
-
-[rpc_endpoints]
+[profile.default.rpc_endpoints]
 polygon_amoy = "${POLYGON_AMOY_RPC_URL}"
 polygon_mainnet = "${POLYGON_MAINNET_RPC_URL}"
 
-
-[env]
+[profile.default.env]
 PRIVATE_KEY = "${PRIVATE_KEY}"

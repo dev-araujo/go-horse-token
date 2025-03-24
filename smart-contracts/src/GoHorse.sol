@@ -9,6 +9,7 @@ error ExceedsMaxSupply();
 error InvalidAmount();
 error InsufficientBalance();
 error TransferFailed();
+error ExactFeeRequired();
 
 /**
  * @title GoHorse Token (GOHO)
@@ -26,6 +27,7 @@ contract GoHorse is ERC20, Ownable, ReentrancyGuard {
     event TokensMinted(address indexed to, uint256 amount);
     event MintFeeUpdated(uint256 newFee);
     event FeeRecipientUpdated(address newRecipient);
+    event FeeTransferred(address indexed recipient, uint256 amount);
 
     /**
      * @notice Construtor do contrato do token.
@@ -38,6 +40,7 @@ contract GoHorse is ERC20, Ownable, ReentrancyGuard {
         uint256 _mintFee,
         address _feeRecipient
     ) ERC20("Go Horse", "GOHO") Ownable(msg.sender) {
+        require(_feeRecipient != address(0), "Invalid fee recipient");
         s_metadataUrl = metadataUrl;
         mintFee = _mintFee;
         feeRecipient = _feeRecipient;
@@ -50,19 +53,21 @@ contract GoHorse is ERC20, Ownable, ReentrancyGuard {
      * @param amount Quantidade de tokens a serem mintados (em wei).
      */
     function mint(address to, uint256 amount) external payable nonReentrant {
+        require(to != address(0), "Invalid recipient");
         if (amount % (10 ** 18) != 0) {
             revert InvalidAmount();
         }
-
         if (s_totalMinted + amount > MAX_SUPPLY) {
             revert ExceedsMaxSupply();
         }
 
         uint256 tokenAmount = amount / (10 ** 18);
         uint256 requiredFee = mintFee * tokenAmount;
-
         if (msg.value < requiredFee) {
             revert InsufficientBalance();
+        }
+        if (msg.value != requiredFee) {
+            revert ExactFeeRequired();
         }
 
         _mint(to, amount);
@@ -73,6 +78,7 @@ contract GoHorse is ERC20, Ownable, ReentrancyGuard {
             if (!success) {
                 revert TransferFailed();
             }
+            emit FeeTransferred(feeRecipient, msg.value);
         }
 
         emit TokensMinted(to, amount);
@@ -98,7 +104,6 @@ contract GoHorse is ERC20, Ownable, ReentrancyGuard {
         feeRecipient = _feeRecipient;
         emit FeeRecipientUpdated(_feeRecipient);
     }
-
 
     /**
      * @notice Retorna a URL de metadados do token.
