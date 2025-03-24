@@ -14,7 +14,8 @@ GoHorse Token (GOHO) 🐴 é um token **ERC20** construído utilizando **Solidit
 
 ## Endereço do contrato na polygonscan :
 
-**Amoy Testnet** : https://amoy.polygonscan.com/address/0xC7faFBAecD64b1448d9FEf1fF138bF1b08cf943b
+**Amoy Testnet** : https://amoy.polygonscan.com/address/0xC7faFBAecD64b1448d9FEf1fF138bF1b08cf943b#code
+
 **Polygon Mainnet** : Em breve...
 
 Essa aplicação será uma aplicação **fullstack web3** onde se utilizará:
