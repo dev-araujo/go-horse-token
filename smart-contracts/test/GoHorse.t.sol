@@ -3,7 +3,7 @@ pragma solidity ^0.8.28;
 
 import "forge-std/Test.sol";
 import "../src/GoHorse.sol";
-import "../src/IGoHorse.sol"; // Importe a interface
+import "../src/IGoHorse.sol";
 
 contract GoHorseTest is Test {
     GoHorse token;
@@ -53,7 +53,7 @@ contract GoHorseTest is Test {
     }
 
     function testMintExceedsMaxSupply() public {
-        token.setMintFee(0); // Evita chamada externa
+        token.setMintFee(0);
         uint256 amount = 10001 * 10 ** 18;
 
         vm.prank(user);
