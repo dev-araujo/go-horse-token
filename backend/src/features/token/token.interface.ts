@@ -1,5 +1,5 @@
 export interface ITokenService {
-  mintTokens(to: string, amount: number): Promise<void>;
+  mintTokens(to: string, amount: number): Promise<MintTokenReturn>;
   getMetadataAboutToken(): Promise<string>;
   getTotalMinted(): Promise<number>;
   getMaxSupply(): Promise<number>;
@@ -8,8 +8,9 @@ export interface ITokenService {
 
 export interface MintTokenReturn {
   hash: string;
-  amountMinted: number;
-  balanceInGohoAfterMint: number;
+  amountMinted: string;
+  balanceInGohoAfterMint: string;
   mintFee: string;
   totalFeeWei: string;
+  totalFeeEth: string;
 }

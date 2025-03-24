@@ -1,5 +1,14 @@
-import { Router } from "express";
+import { Router, Request, Response, NextFunction } from "express";
+import { ethers } from "ethers";
 import { TokenController } from "./token.controller";
+
+const asyncHandler = (
+  fn: (req: Request, res: Response, next: NextFunction) => Promise<void>
+) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    Promise.resolve(fn(req, res, next)).catch(next);
+  };
+};
 
 export class TokenRoutes {
   private router: Router;
@@ -12,29 +21,60 @@ export class TokenRoutes {
   }
 
   private setupRoutes(): void {
-    // POST /token/mint - Minta novos tokens
-    this.router.post("/mint", (req, res) =>
-      this.tokenController.mintTokens(req, res)
+    // POST /token/mint - Minta novos tokens GOHO
+    this.router.post(
+      "/mint",
+      asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+        const { to, amount } = req.body;
+
+        if (!to || typeof to !== "string" || !ethers.isAddress(to)) {
+          res.status(400).json({ error: "Invalid or missing 'to' address" });
+          return;
+        }
+        if (!amount || typeof amount !== "number" || amount <= 0) {
+          res.status(400).json({ error: "Invalid or missing 'amount', must be a positive number" });
+          return;
+        }
+
+        const result = await this.tokenController.mintTokens(to, amount);
+        res.status(200).json(result);
+      })
     );
 
-    // GET /token/metadata - Retorna metadados do token
-    this.router.get("/metadata", (req, res) =>
-      this.tokenController.getMetadataAboutToken(req, res)
+    // GET /token/metadata - Retorna metadados do token GOHO
+    this.router.get(
+      "/metadata",
+      asyncHandler(async (req: Request, res: Response) => {
+        const result = await this.tokenController.getMetadataAboutToken();
+        res.status(200).json(result);
+      })
     );
 
-    // GET /token/total-minted - Retorna total de tokens mintados
-    this.router.get("/total-minted", (req, res) =>
-      this.tokenController.getTotalMinted(req, res)
+    // GET /token/total-minted - Retorna o total de tokens GOHO mintados
+    this.router.get(
+      "/total-minted",
+      asyncHandler(async (req: Request, res: Response) => {
+        const result = await this.tokenController.getTotalMinted();
+        res.status(200).json(result);
+      })
     );
 
-    // GET /token/max-supply - Retorna o máximo de tokens possíveis de serem mintados pelo contrato
-    this.router.get("/max-supply", (req, res) =>
-      this.tokenController.getMaxSupply(req, res)
+    // GET /token/max-supply - Retorna o suprimento máximo de tokens GOHO
+    this.router.get(
+      "/max-supply",
+      asyncHandler(async (req: Request, res: Response) => {
+        const result = await this.tokenController.getMaxSupply();
+        res.status(200).json(result);
+      })
     );
 
-    // GET /token/mint-fee - Retorna a taxa de mintagem atual
-    this.router.get("/mint-fee", (req, res) =>
-      this.tokenController.getMintFee(req, res)
+    // GET /token/mint-fee - Retorna a taxa de mintagem atual (em ETH) por token
+    this.router.get(
+      "/mint-fee",
+      asyncHandler(async (req: Request, res: Response) => {
+        const result = await this.tokenController.getMintFee();
+        res.status(200).json(result);
+      })
     );
   }
 
