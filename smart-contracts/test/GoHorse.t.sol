@@ -14,7 +14,7 @@ contract GoHorseTest is Test {
     string metadataUrl = "https://example.com/metadata.json";
 
     function setUp() public {
-        token = new GoHorse(metadataUrl, mintFee, feeRecipient);
+        token = new GoHorse(mintFee, feeRecipient);
         vm.deal(user, 10 ether);
     }
 

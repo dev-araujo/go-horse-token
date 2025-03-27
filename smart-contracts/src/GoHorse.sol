@@ -18,7 +18,8 @@ error ExactFeeRequired();
  */
 contract GoHorse is ERC20, Ownable, ReentrancyGuard {
     uint256 public constant MAX_SUPPLY = 10000 * 10 ** 18;
-    string private s_metadataUrl;
+    string private constant S_METADATA_URL =
+        "https://raw.githubusercontent.com/dev-araujo/go-horse-faucet/main/smart-contracts/metadata/gohorse-metadata.json";
     uint256 private s_totalMinted;
     uint256 public mintFee;
     address public feeRecipient;
@@ -30,17 +31,14 @@ contract GoHorse is ERC20, Ownable, ReentrancyGuard {
 
     /**
      * @notice Construtor do contrato do token.
-     * @param metadataUrl URL de metadados do token.
      * @param _mintFee Taxa de mintagem em wei.
      * @param _feeRecipient Endereço que receberá a taxa de mintagem.
      */
     constructor(
-        string memory metadataUrl,
         uint256 _mintFee,
         address _feeRecipient
     ) ERC20("Go Horse", "GOHO") Ownable(msg.sender) {
         require(_feeRecipient != address(0), "Invalid fee recipient");
-        s_metadataUrl = metadataUrl;
         mintFee = _mintFee;
         feeRecipient = _feeRecipient;
     }
@@ -106,8 +104,8 @@ contract GoHorse is ERC20, Ownable, ReentrancyGuard {
      * @notice Retorna a URL de metadados do token.
      * @return A URL contendo informações sobre o token.
      */
-    function getMetadataUrl() external view returns (string memory) {
-        return s_metadataUrl;
+    function getMetadataUrl() external pure returns (string memory) {
+        return S_METADATA_URL;
     }
 
     /**
