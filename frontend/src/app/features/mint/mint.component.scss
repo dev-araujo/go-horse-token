@@ -1,0 +1,62 @@
+@use "../../../styles/variables" as var;
+@use "../../../styles/colors" as color;
+
+:host {
+  display: block;
+  padding: var.$spacing-md 0;
+}
+
+.mint-container {
+  display: flex;
+  flex-direction: column;
+  gap: var.$spacing-lg;
+}
+
+.mint-header {
+  text-align: center;
+  margin-bottom: var.$spacing-lg;
+  h1 {
+    font-size: var.$font-size-lg * 1.5;
+    font-weight: var.$font-weight-bold;
+    color: color.$primary-text;
+    margin-bottom: var.$spacing-xs;
+  }
+  p {
+    font-size: var.$font-size-base;
+    color: color.$secondary-text;
+  }
+}
+
+.card {
+  background-color: var.$white;
+  padding: var.$spacing-lg;
+  border-radius: var.$border-radius-base * 2;
+  box-shadow: 0 2px 6px rgba(var.$black, 0.08);
+  h2 {
+    font-size: var.$font-size-lg * 1.1;
+    font-weight: var.$font-weight-bold;
+    margin-bottom: var.$spacing-md;
+    color: color.$primary-text;
+    border-bottom: 1px solid var.$border-color;
+    padding-bottom: var.$spacing-sm;
+  }
+}
+
+.mint-form {
+  .mint-fee-info {
+    margin-top: var.$spacing-sm;
+    margin-bottom: var.$spacing-md;
+    font-size: var.$font-size-sm;
+    color: color.$secondary-text;
+    text-align: center;
+  }
+  button[type="submit"] {
+    width: 100%;
+    padding: var.$spacing-sm;
+    font-size: var.$font-size-base;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var.$spacing-xs;
+  }
+}

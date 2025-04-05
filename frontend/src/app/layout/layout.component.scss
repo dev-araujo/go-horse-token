@@ -1,20 +1,31 @@
-@use "../../styles/colors.scss" as color;
+@use "../../styles/variables" as _var;
 
 .layout {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  background: color.$primary-background;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: _var.$primary-bg;
 
   &__content {
-    background: white;
-    height: 90vh;
-    width: 90vw;
-    border-radius: 1%;
-
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
+    width: 100%;
+    margin: 0 auto;
+    padding: _var.$spacing-md;
+    background-color: _var.$white;
+
+    @media (min-width: _var.$breakpoint-md) {
+      max-width: 90vw;
+      max-height: 90vh;
+      margin: auto;
+      border-radius: _var.$border-radius-base * 2;
+      box-shadow: 0 4px 12px rgba(_var.$black, 0.1);
+      overflow-y: auto;
+    }
+
+    @media (min-width: _var.$breakpoint-lg) {
+      max-width: 80vw;
+    }
   }
 }

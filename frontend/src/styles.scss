@@ -1,7 +1,97 @@
-@use "./styles/reset" as reset;
-@use "./styles/fonts" as fonts;
+@use "./styles/reset";
+@use "./styles/fonts";
+@use "./styles/colors" as color;
+@use "./styles/variables" as _var;
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background-color: _var.$primary-bg;
+  color: _var.$primary-text;
+  font-family: _var.$font-family-base;
+  font-size: _var.$font-size-base;
+  line-height: _var.$line-height-base;
+}
 
 * {
-  font-family: "Open Sans", sans-serif;
-  font-size: 18px;
+  box-sizing: border-box;
+}
+
+button {
+  cursor: pointer;
+  padding: _var.$spacing-sm _var.$spacing-md;
+  border-radius: _var.$border-radius-base * 5;
+  border: 1px solid transparent;
+  font-weight: _var.$font-weight-bold;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  background-color: _var.$accent-color;
+  color: _var.$white;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+textarea {
+  padding: _var.$spacing-sm;
+  border: 1px solid _var.$border-color;
+  border-radius: _var.$border-radius-base;
+  width: 100%;
+  margin-bottom: _var.$spacing-sm;
+  font-size: _var.$font-size-base;
+  color: _var.$primary-text;
+
+  &:focus {
+    outline: none;
+    border-color: _var.$accent-color;
+    box-shadow: 0 0 0 2px rgba(_var.$accent-color, 0.2);
+  }
+}
+
+.container {
+  width: 100%;
+  padding: 0 _var.$spacing-md;
+  margin: 0 auto;
+
+  @media (min-width: _var.$breakpoint-sm) {
+    max-width: 540px;
+  }
+  @media (min-width: _var.$breakpoint-md) {
+    max-width: 720px;
+  }
+  @media (min-width: _var.$breakpoint-lg) {
+    max-width: 960px;
+  }
+  @media (min-width: _var.$breakpoint-xl) {
+    max-width: 1140px;
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mt-1 {
+  margin-top: _var.$spacing-xs;
+}
+.mt-2 {
+  margin-top: _var.$spacing-sm;
+}
+.mt-3 {
+  margin-top: _var.$spacing-md;
+}
+.mt-4 {
+  margin-top: _var.$spacing-lg;
+}
+.mt-5 {
+  margin-top: _var.$spacing-xl;
 }

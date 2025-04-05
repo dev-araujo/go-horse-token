@@ -9,9 +9,14 @@ const CORE = [RouterOutlet];
 @Component({
   selector: 'app-layout',
   imports: [...COMPONENTS, ...CORE],
-  template: `<main class="layout">
-    <div class="layout__content"><app-topnavbar /> <router-outlet /></div>
-  </main> `,
+  template: `
+    <div class="layout">
+      <app-topnavbar />
+      <main class="layout__content">
+        <router-outlet />
+      </main>
+    </div>
+  `,
   styleUrl: './layout.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -1,0 +1,33 @@
+@use "colors" as color;
+
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+$font-size-base: 1rem;
+$font-size-sm: $font-size-base * 0.875;
+$font-size-lg: $font-size-base * 1.25;
+
+$line-height-base: 1.5;
+
+$font-family-base: "Open Sans", sans-serif;
+$font-weight-normal: 400;
+$font-weight-bold: 700;
+
+$spacing-unit: 8px;
+$spacing-xs: $spacing-unit;
+$spacing-sm: $spacing-unit * 2;
+$spacing-md: $spacing-unit * 3;
+$spacing-lg: $spacing-unit * 4;
+$spacing-xl: $spacing-unit * 6;
+
+$border-radius-base: 4px;
+$border-color: #e0d7c5;
+
+$primary-bg: color.$primary-background;
+$primary-text: color.$primary-text;
+$secondary-text: color.$secondary-text;
+$accent-color: color.$accent-color;
+$white: color.$white;
+$black: color.$black;

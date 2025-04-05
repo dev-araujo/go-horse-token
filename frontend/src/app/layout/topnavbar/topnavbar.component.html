@@ -1,0 +1,39 @@
+<header class="topnavbar" [class.is-open]="isMenuOpen()">
+  <div class="topnavbar__content">
+    <div class="logo">GoHorse</div>
+    <section class="topnavbar__actions">
+      <nav>
+        <a
+          [routerLink]="['/token']"
+          routerLinkActive="active"
+          (click)="closeMenu()"
+          >Token</a
+        >
+        <a
+          [routerLink]="['/sobre']"
+          routerLinkActive="active"
+          (click)="closeMenu()"
+          >Sobre</a
+        >
+        <a
+          [routerLink]="['/docs']"
+          routerLinkActive="active"
+          (click)="closeMenu()"
+          >Docs</a
+        >
+      </nav>
+
+      <button class="connect-btn">Connect Wallet</button>
+
+      <button
+        class="menu-toggle"
+        (click)="toggleMenu()"
+        aria-label="Toggle menu"
+      >
+        <span class="material-icons">{{
+          isMenuOpen() ? "close" : "menu"
+        }}</span>
+      </button>
+    </section>
+  </div>
+</header>
