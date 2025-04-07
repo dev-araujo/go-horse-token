@@ -7,5 +7,5 @@ export const routes: Routes = [
   { path: 'token', component: MintComponent, title: 'Token GoHorse' },
   { path: 'sobre', component: AboutComponent, title: 'Sobre GoHorse' },
   { path: 'docs', component: DocumentationComponent, title: 'Docs GoHorse' },
-  { path: '*', redirectTo: '/token', pathMatch: 'full' },
+  { path: '**', redirectTo: '/token', pathMatch: 'full' },
 ];

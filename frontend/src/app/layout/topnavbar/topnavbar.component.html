@@ -1,6 +1,6 @@
 <header class="topnavbar" [class.is-open]="isMenuOpen()">
   <div class="topnavbar__content">
-    <div class="logo">GoHorse</div>
+    <div class="logo" [routerLink]="['/token']">GoHorse</div>
     <section class="topnavbar__actions">
       <nav>
         <a
@@ -23,7 +23,9 @@
         >
       </nav>
 
-      <button class="connect-btn">Connect Wallet</button>
+      <button class="connect-btn" (click)="handleWalletAction()">
+        {{ displayAddress() }}
+      </button>
 
       <button
         class="menu-toggle"

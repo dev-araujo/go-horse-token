@@ -15,7 +15,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     </p>
 
     <img
-      src="assets/gohorse_logo_retro.png"
+      src="gohorse-pe-de-pano.jpg"
       alt="GoHorse Logo Estilo Retro"
       class="retro-logo"
     />

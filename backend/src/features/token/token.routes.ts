@@ -32,7 +32,11 @@ export class TokenRoutes {
           return;
         }
         if (!amount || typeof amount !== "number" || amount <= 0) {
-          res.status(400).json({ error: "Invalid or missing 'amount', must be a positive number" });
+          res
+            .status(400)
+            .json({
+              error: "Invalid or missing 'amount', must be a positive number",
+            });
           return;
         }
 
@@ -68,7 +72,7 @@ export class TokenRoutes {
       })
     );
 
-    // GET /token/mint-fee - Retorna a taxa de mintagem atual (em ETH) por token
+    // GET /token/mint-fee - Retorna a taxa de mintagem atual (em POL) por token
     this.router.get(
       "/mint-fee",
       asyncHandler(async (req: Request, res: Response) => {
