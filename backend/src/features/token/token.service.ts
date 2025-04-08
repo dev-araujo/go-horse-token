@@ -1,59 +1,26 @@
 import { BlockchainConfig } from "../../config/blockchain.config";
-import { ITokenService, MintTokenReturn } from "./token.interface";
+import { ITokenService } from "./token.interface";
 import { ethers } from "ethers";
 import goHorseAbi from "../../contracts/amoy/GoHorse.json";
-import { ERROR_MAPPINGS } from "./utils/token-errors";
 
 export class TokenService implements ITokenService {
-  private readonly contract: ethers.Contract;
+  private readonly contractReader: ethers.Contract;
+  private readonly tokenAddress: string;
+  private readonly provider: ethers.Provider;
 
   constructor() {
-    const tokenAddress = BlockchainConfig.getTokenAddress();
-    const signer = BlockchainConfig.getSigner();
-    this.contract = new ethers.Contract(tokenAddress, goHorseAbi.abi, signer);
+    this.tokenAddress = BlockchainConfig.getTokenAddress();
+    this.provider = BlockchainConfig.getProvider();
+    this.contractReader = new ethers.Contract(
+      this.tokenAddress,
+      goHorseAbi.abi,
+      this.provider
+    );
   }
 
-  async mintTokens(to: string, amount: number): Promise<MintTokenReturn> {
-    try {
-      const mintFee = await this.contract.mintFee();
-      const integerAmount = Math.floor(amount);
-      const totalFee = BigInt(mintFee) * BigInt(integerAmount);
-
-      const amountInWei = ethers.parseUnits(integerAmount.toString(), 18);
-      const tx = await this.contract.mint(to, amountInWei, {
-        value: totalFee.toString(),
-      });
-      await tx.wait();
-
-      const balance = await this.getBalance(to);
-
-      return {
-        hash: tx.hash,
-        amountMinted: integerAmount.toString(),
-        balanceInGohoAfterMint: balance.toString(),
-        mintFee: ethers.formatEther(mintFee),
-        totalFeeWei: totalFee.toString(),
-        totalFeeEth: ethers.formatEther(totalFee),
-      };
-    } catch (error: unknown) {
-      const errorMessage =
-        error instanceof Error ? error.message : "Unknown error";
-      const errorReason =
-        error instanceof Error ? (error as any).reason : undefined;
-
-      const errorKey = Object.keys(ERROR_MAPPINGS).find((key) =>
-        errorReason?.includes(key)
-      );
-
-      if (errorKey) {
-        throw new Error(ERROR_MAPPINGS[errorKey]);
-      }
-      throw new Error(`Failed to mint tokens: ${errorMessage}`);
-    }
-  }
   async getMetadataAboutToken(): Promise<string> {
     try {
-      return await this.contract.getMetadataUrl();
+      return await this.contractReader.getMetadataUrl();
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error";
@@ -63,7 +30,7 @@ export class TokenService implements ITokenService {
 
   async getTotalMinted(): Promise<number> {
     try {
-      const totalMinted = await this.contract.getTotalMinted();
+      const totalMinted = await this.contractReader.getTotalMinted();
       return Number(ethers.formatUnits(totalMinted, 18));
     } catch (error: unknown) {
       const errorMessage =
@@ -74,7 +41,7 @@ export class TokenService implements ITokenService {
 
   async getMaxSupply(): Promise<number> {
     try {
-      const maxSupply = await this.contract.getMaxSupply();
+      const maxSupply = await this.contractReader.getMaxSupply();
       return Number(ethers.formatUnits(maxSupply, 18));
     } catch (error: unknown) {
       const errorMessage =
@@ -85,7 +52,7 @@ export class TokenService implements ITokenService {
 
   async getMintFee(): Promise<number> {
     try {
-      const mintFee = await this.contract.mintFee();
+      const mintFee = await this.contractReader.mintFee();
       return Number(ethers.formatEther(mintFee));
     } catch (error: unknown) {
       const errorMessage =
@@ -96,7 +63,7 @@ export class TokenService implements ITokenService {
 
   private async getBalance(address: string): Promise<number> {
     try {
-      const balance = await this.contract.balanceOf(address);
+      const balance = await this.contractReader.balanceOf(address);
       return Number(ethers.formatUnits(balance, 18));
     } catch (error: unknown) {
       const errorMessage =

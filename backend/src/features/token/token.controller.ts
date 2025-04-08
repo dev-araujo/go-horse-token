@@ -8,21 +8,6 @@ export class TokenController {
     this.tokenService = new TokenService();
   }
 
-  async mintTokens(to: string, amount: number): Promise<any> {
-    const data = await this.tokenService.mintTokens(to, amount);
-    return {
-      message: `${amount} tokens GOHO mintados com sucesso! Parabéns dev GOHOOOOOOOO`,
-      data: {
-        transactionHash: data.hash,
-        amountMinted: data.amountMinted,
-        balanceAfterMint: data.balanceInGohoAfterMint,
-        mintFeePerToken: data.mintFee,
-        totalFeeWei: data.totalFeeWei,
-        totalFeeEth: data.totalFeeEth,
-      },
-    };
-  }
-
   async getMetadataAboutToken(): Promise<any> {
     const metadataUrl = await this.tokenService.getMetadataAboutToken();
     return {

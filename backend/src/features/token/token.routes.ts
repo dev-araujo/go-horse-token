@@ -21,31 +21,6 @@ export class TokenRoutes {
   }
 
   private setupRoutes(): void {
-    // POST /token/mint - Minta novos tokens GOHO
-    this.router.post(
-      "/mint",
-      asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-        const { to, amount } = req.body;
-
-        if (!to || typeof to !== "string" || !ethers.isAddress(to)) {
-          res.status(400).json({ error: "Invalid or missing 'to' address" });
-          return;
-        }
-        if (!amount || typeof amount !== "number" || amount <= 0) {
-          res
-            .status(400)
-            .json({
-              error: "Invalid or missing 'amount', must be a positive number",
-            });
-          return;
-        }
-
-        const result = await this.tokenController.mintTokens(to, amount);
-        res.status(200).json(result);
-      })
-    );
-
-    // GET /token/metadata - Retorna metadados do token GOHO
     this.router.get(
       "/metadata",
       asyncHandler(async (req: Request, res: Response) => {
@@ -54,7 +29,6 @@ export class TokenRoutes {
       })
     );
 
-    // GET /token/total-minted - Retorna o total de tokens GOHO mintados
     this.router.get(
       "/total-minted",
       asyncHandler(async (req: Request, res: Response) => {
@@ -63,7 +37,6 @@ export class TokenRoutes {
       })
     );
 
-    // GET /token/max-supply - Retorna o suprimento máximo de tokens GOHO
     this.router.get(
       "/max-supply",
       asyncHandler(async (req: Request, res: Response) => {
@@ -72,7 +45,6 @@ export class TokenRoutes {
       })
     );
 
-    // GET /token/mint-fee - Retorna a taxa de mintagem atual (em POL) por token
     this.router.get(
       "/mint-fee",
       asyncHandler(async (req: Request, res: Response) => {

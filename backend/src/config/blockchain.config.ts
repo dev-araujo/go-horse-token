@@ -1,5 +1,4 @@
 import * as dotenv from "dotenv";
-
 import { ethers } from "ethers";
 
 dotenv.config();
@@ -13,6 +12,10 @@ export class BlockchainConfig {
 
   public static getSigner(): ethers.Wallet {
     return this.wallet;
+  }
+
+  public static getProvider(): ethers.Provider {
+    return this.provider;
   }
 
   public static getTokenAddress(): string {

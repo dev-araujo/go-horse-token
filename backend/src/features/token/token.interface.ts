@@ -1,5 +1,4 @@
 export interface ITokenService {
-  mintTokens(to: string, amount: number): Promise<MintTokenReturn>;
   getMetadataAboutToken(): Promise<string>;
   getTotalMinted(): Promise<number>;
   getMaxSupply(): Promise<number>;
