@@ -97,8 +97,9 @@ Você pode interagir com o contrato `GoHorseToken` implantado usando um explorad
 
 ---
 
+
 #### Autor 👷
 
-[![linkedin](https://media.licdn.com/dms/image/v2/D4D03AQGRDOBRW1cYgA/profile-displayphoto-shrink_200_200/B4DZN3t6VvHQAY-/0/1732880345005?e=1743033600&v=beta&t=0oJW8bm6Mkjj7iC4s5aVe8Tvh63kQwXItyI4ElUAv_o)](https://www.linkedin.com/in/araujocode/)
+<img src="https://media.licdn.com/dms/image/v2/D4D03AQFdtLzMPGq-iA/profile-displayphoto-shrink_200_200/B4DZXYBptVG8AY-/0/1743086067092?e=1749081600&v=beta&t=f3BTl84h34Tyak_VLwTjwH1ckx1jM_SrC7mGewpzMA4" width=120 />
 
 [Adriano P Araujo](https://www.linkedin.com/in/araujocode/)
