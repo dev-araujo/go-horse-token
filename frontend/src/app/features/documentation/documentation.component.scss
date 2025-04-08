@@ -1,5 +1,7 @@
 @use "../../../styles/variables" as var;
 @use "../../../styles/colors" as color;
+@use "sass:math";
+@use "sass:color" as sasscolor;
 
 :host {
   display: block;
@@ -50,7 +52,10 @@
         background-color: color.$primary-text;
       }
       &:disabled {
-        background-color: lighten(color.$secondary-text, 20%);
+        background-color: sasscolor.scale(
+          color.$secondary-text,
+          $lightness: 20%
+        );
       }
     }
 
@@ -75,7 +80,7 @@
       .label {
         font-size: var.$font-size-sm;
         color: color.$secondary-text;
-        margin-bottom: var.$spacing-xs / 2;
+        margin-bottom: calc(var.$spacing-xs / 2);
         font-weight: var.$font-weight-bold;
       }
 
@@ -158,12 +163,12 @@
       margin-bottom: var.$spacing-sm;
 
       li {
-        margin-bottom: var.$spacing-xs / 2;
+        margin-bottom: calc(var.$spacing-xs / 2);
         color: color.$secondary-text;
         code {
           background-color: #e9ecef;
           padding: 2px 4px;
-          border-radius: var.$border-radius-base / 2;
+          border-radius: calc(var.$border-radius-base / 2);
           font-size: var.$font-size-sm * 0.95;
         }
       }

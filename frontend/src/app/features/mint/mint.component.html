@@ -61,7 +61,7 @@
 
       @if (mintFee() !== null) {
       <div class="mint-fee-info">
-        Taxa estimada por token: {{ mintFee() | number : "1.0-18" }} MATIC
+        Taxa estimada por token: {{ mintFee() | number : "1.0-18" }} POL
       </div>
       } @else {
       <div class="mint-fee-info">(Carregando taxa...)</div>
@@ -99,7 +99,7 @@
         <p>
           Custo Total (Taxa Mint):
           <span class="bolder">{{ result.totalFee | number : "1.2-8" }}</span>
-          MATIC (Gás da rede não incluído aqui)
+          POL (Gás da rede não incluído aqui)
         </p>
         }
       </div>
