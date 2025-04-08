@@ -6,7 +6,7 @@
 
   <section class="mint-form card">
     <h2>Mintar Novos Tokens</h2>
-    <form (ngSubmit)="onMintSubmit()" #mintForm="ngForm">
+    <form (ngSubmit)="onMintSubmit(mintForm)" #mintForm="ngForm">
       <div class="form-group">
         <label for="toAddress">Endereço Destino (Wallet):</label>
         <input
@@ -67,9 +67,16 @@
       <div class="mint-fee-info">(Carregando taxa...)</div>
       }
 
-      <button type="submit" [disabled]="mintForm.invalid || isLoading()">
+      <button
+        type="submit"
+        [disabled]="
+          mintForm.invalid || isLoading() || !walletService.isConnected()
+        "
+      >
         @if(isLoading()){
         <span>Mintando... <span class="spinner"></span></span>
+        } @else if (!walletService.isConnected()) {
+        <span>Conecte a Carteira</span>
         } @else {
         <span>Mintar GOHO</span>
         }
@@ -77,15 +84,35 @@
 
       @if (mintResult(); as result) {
       <div class="result-message success">
-        <p>{{ result.message || "Mintagem bem-sucedida!" }}</p>
-        @if(result.totalFee !== undefined && result.totalFee !== null) { }
+        <p>{{ `${result.message} 🐎` || "Processando..." }}</p>
+        @if(result.transactionHash) {
         <p>
           Transação:
           <a
-            href="https://polygonscan.com/tx/{{ result.transactionHash }}"
+            href="https://amoy.polygonscan.com/tx/{{ result.transactionHash }}"
             target="_blank"
             rel="noopener noreferrer"
             >{{ result.transactionHash }}</a
+          >
+        </p>
+        } @if(result.totalFee !== undefined && result.totalFee !== null) {
+        <p>
+          Custo Total (Taxa Mint):
+          <span class="bolder">{{ result.totalFee | number : "1.2-8" }}</span>
+          MATIC (Gás da rede não incluído aqui)
+        </p>
+        }
+      </div>
+      } @else if (lastTransactionHash()) {
+      <div class="result-message info">
+        <p>Transação enviada, aguardando confirmação...</p>
+        <p>
+          Transação:
+          <a
+            href="https://amoy.polygonscan.com/tx/{{ lastTransactionHash() }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            >{{ lastTransactionHash() }}</a
           >
         </p>
       </div>

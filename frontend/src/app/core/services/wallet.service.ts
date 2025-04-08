@@ -6,11 +6,11 @@ import {
   inject,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { ethers, BrowserProvider, Eip1193Provider } from 'ethers'; 
+import { ethers, BrowserProvider, Eip1193Provider, Signer } from 'ethers';
 
 declare global {
   interface Window {
-    ethereum?: Eip1193Provider & BrowserProvider; 
+    ethereum?: Eip1193Provider & BrowserProvider;
   }
 }
 
@@ -23,6 +23,7 @@ export class WalletService {
   readonly connectedAccount = signal<string | null>(null);
   readonly isConnected = computed(() => !!this.connectedAccount());
   readonly provider = signal<BrowserProvider | null>(null);
+  readonly signer = signal<Signer | null>(null);
 
   constructor() {
     if (isPlatformBrowser(this.platformId)) {
@@ -31,7 +32,6 @@ export class WalletService {
     }
   }
 
-  
   async connectWallet(): Promise<string | null> {
     if (!isPlatformBrowser(this.platformId)) {
       console.error('A conexão com a carteira só pode ser feita no navegador.');
@@ -53,6 +53,8 @@ export class WalletService {
       if (accounts && accounts.length > 0) {
         const account = accounts[0];
         this.connectedAccount.set(account);
+        const currentSigner = await browserProvider.getSigner();
+        this.signer.set(currentSigner);
         console.log('Carteira conectada:', account);
         return account;
       } else {
@@ -66,15 +68,15 @@ export class WalletService {
       } else {
         console.error('Erro ao conectar a carteira:', error);
       }
-      this.disconnectWallet(); 
+      this.disconnectWallet();
       return null;
     }
   }
 
-
   disconnectWallet(): void {
     this.connectedAccount.set(null);
     this.provider.set(null);
+    this.signer.set(null);
     console.log('Estado da carteira desconectado.');
   }
 
@@ -82,26 +84,33 @@ export class WalletService {
     if (window.ethereum) {
       try {
         const browserProvider = new ethers.BrowserProvider(window.ethereum);
-        const accounts = await browserProvider.send('eth_accounts', []); // Não solicita, apenas verifica
+        const accounts = await browserProvider.send('eth_accounts', []);
         if (accounts && accounts.length > 0) {
           this.provider.set(browserProvider);
           this.connectedAccount.set(accounts[0]);
+          const currentSigner = await browserProvider.getSigner();
+          this.signer.set(currentSigner);
           console.log('Conexão existente encontrada:', accounts[0]);
+        } else {
+          this.disconnectWallet();
         }
       } catch (error) {
         console.error('Erro ao verificar conexão existente:', error);
+        this.disconnectWallet();
       }
     }
   }
 
- 
   private listenForAccountChanges(): void {
     if (window.ethereum && window.ethereum.on) {
-      window.ethereum.on('accountsChanged', (accounts: string[]) => {
+      window.ethereum.on('accountsChanged', async (accounts: string[]) => {
         if (accounts && accounts.length > 0) {
           console.log('Conta alterada:', accounts[0]);
+          const browserProvider = new ethers.BrowserProvider(window.ethereum!);
+          this.provider.set(browserProvider);
           this.connectedAccount.set(accounts[0]);
-          this.provider.set(new ethers.BrowserProvider(window.ethereum!));
+          const currentSigner = await browserProvider.getSigner();
+          this.signer.set(currentSigner);
         } else {
           console.log('Carteira desconectada ou bloqueada.');
           this.disconnectWallet();

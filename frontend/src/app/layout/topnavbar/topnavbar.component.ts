@@ -4,6 +4,7 @@ import {
   computed,
   inject,
   signal,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { WalletService } from '../../core/services/wallet.service';
@@ -17,6 +18,8 @@ import { WalletService } from '../../core/services/wallet.service';
 })
 export class TopnavbarComponent {
   private walletService = inject(WalletService);
+  private cdr = inject(ChangeDetectorRef);
+
   isMenuOpen = signal(false);
 
   isConnected = this.walletService.isConnected;
@@ -24,7 +27,8 @@ export class TopnavbarComponent {
 
   displayAddress = computed(() => {
     const account = this.connectedAccount();
-    if (!account) return 'Connect Wallet';
+    if (!account) return 'Conectar Carteira';
+
     return `${account.substring(0, 6)}...${account.substring(
       account.length - 4
     )}`;
@@ -40,14 +44,27 @@ export class TopnavbarComponent {
 
   async handleWalletAction(): Promise<void> {
     if (this.isConnected()) {
-      console.log('Carteira já conectada:', this.connectedAccount());
-    } else {
-      try {
-        await this.walletService.connectWallet();
-      } catch (error) {
-        console.error('Falha ao conectar carteira a partir do navbar:', error);
-      }
+      this.disconnect();
+      return;
     }
+    await this.connect();
+  }
+
+  private async connect(): Promise<void> {
+    try {
+      await this.walletService.connectWallet();
+      this.cdr.markForCheck();
+    } catch (error) {
+      console.error('Falha ao conectar carteira a partir do navbar:', error);
+    } finally {
+      this.closeMenu();
+    }
+  }
+
+  private disconnect(): void {
+    this.walletService.disconnectWallet();
+    console.log('Carteira desconectada.');
+    this.cdr.markForCheck();
     this.closeMenu();
   }
 }

@@ -1,3 +1,5 @@
+import { TransactionReceipt, TransactionResponse } from "ethers";
+
 export interface MintData {
   to: string;
   amount: number | null;
@@ -28,4 +30,26 @@ export interface ApiErrorResponse {
 }
 export interface MintFeeResponse {
   mintFeePerToken: number;
+}
+
+export interface MintTransactionParams {
+  amountInWei: bigint;
+  totalFeeWei: bigint;
+}
+
+export interface MintExecutionResult {
+  success: true;
+  tx: TransactionResponse;
+}
+
+export interface MintExecutionError {
+  success: false;
+  error: Error;
+  reason: any;
+}
+
+export interface ReceiptResult {
+  success: boolean;
+  receipt: TransactionReceipt | null;
+  hash: string;
 }
