@@ -30,8 +30,8 @@ Essa aplicação será uma aplicação **fullstack web3** onde se utilizará:
 
 - [x] Testes dos smart contracts na Testnet **[Estamos aqui]**
 - [x] Criação do backend (?)
-- 🏇 Crição da interface
-- [ ] Implantação dos smart contracts na mainnet 🤠
+- [x] Crição da interface
+- 🏇 Implantação dos smart contracts na mainnet 🤠
 - [ ] Adaptação da faucet do consumo da testnet para mainnet
 
 ## Documentação
