@@ -14,11 +14,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       mais... criativas.
     </p>
 
-    <img
-      src="gohorse-pe-de-pano.jpg"
-      alt="GoHorse Logo Estilo Retro"
-      class="retro-logo"
-    />
+    <img src="gohorsesymbol.jpeg" alt="GoHorse Logo" class="logo" />
     <h2>A Filosofia</h2>
     <ul>
       <li>Entregue primeiro, pergunte (ou corrija) depois.</li>
@@ -34,9 +30,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       de suas próprias batalhas no código.
     </p>
     <p>
-      Lembre-se: Este token é para fins de diversão e aprendizado, inspirado na
-      cultura dev brasileira. Não possui valor financeiro real (a menos que você
-      encontre outro entusiasta GoHorse disposto a trocar por café).
+      <strong>Lembre-se:</strong> Este token é para fins de diversão e
+      aprendizado, inspirado na cultura dev brasileira. Não possui valor
+      financeiro real (a menos que você encontre outro entusiasta GoHorse
+      disposto a trocar por café).
     </p>
   </div>`,
   styleUrl: './about.component.scss',

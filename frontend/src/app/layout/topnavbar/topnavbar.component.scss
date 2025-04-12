@@ -25,6 +25,11 @@
     color: color.$primary-text;
     text-decoration: none;
     margin-right: var.$spacing-md;
+    cursor: pointer;
+
+    .image {
+      display: none;
+    }
   }
 
   &__actions {
@@ -98,6 +103,17 @@
         font-size: var.$font-size-lg * 1.3;
         color: color.$primary-text;
         display: block;
+      }
+    }
+  }
+
+  @media (min-width: var.$breakpoint-lg) {
+    .logo {
+      display: flex;
+      align-items: center;
+      .image {
+        display: block;
+        width: 60px;
       }
     }
   }

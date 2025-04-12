@@ -15,6 +15,10 @@
     text-align: center;
   }
 
+  .logo {
+    width: 154px;
+  }
+
   h2 {
     font-size: _var.$font-size-lg;
     font-weight: _var.$font-weight-bold;
@@ -32,6 +36,12 @@
     margin-bottom: _var.$spacing-sm;
   }
 
+  p {
+    strong {
+      font-weight: 600;
+    }
+  }
+
   ul {
     list-style: disc;
     padding-left: _var.$spacing-lg;
@@ -41,10 +51,9 @@
     }
   }
 
-  .retro-logo {
+  .logo {
     display: block;
-    max-width: 200px;
+
     margin: _var.$spacing-lg auto;
-    filter: grayscale(50%); // Efeito levemente retro
   }
 }
