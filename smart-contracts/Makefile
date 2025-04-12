@@ -13,11 +13,12 @@ TESTNET_RPC_URL := $(POLYGON_AMOY_RPC_URL)
 MAINNET_RPC_URL := $(POLYGON_MAINNET_RPC_URL)
 
 # Variáveis
-CONTRACT_ADDRESS := 0xDBDA06E01713eD143cEA28b68B7C194372860CED
+
+CONTRACT_ADDRESS := 0x7B7758077e51Bc1Be499eF9180f82E16019065cD
 CONTRACT_NAME := GoHorse
 
 # Comandos
-.PHONY: all compile deploy-testnet deploy-mainnet verify-amoy clean
+.PHONY: all compile deploy-testnet deploy-mainnet verify-amoy verify-mainnet clean
 
 all: compile
 
@@ -48,6 +49,20 @@ verify-amoy:
 		--chain-id 80002 \
 		--verifier etherscan \
 		--verifier-url https://api-amoy.polygonscan.com/api \
+		--etherscan-api-key $(POLYGONSCAN_API_KEY) \
+		$(CONTRACT_ADDRESS) \
+		src/GoHorse.sol:GoHorse \
+		--compiler-version "0.8.28" \
+		--num-of-optimizations 200 \
+		--watch
+
+# Verifica o contrato na Polygon Mainnet
+verify-mainnet:
+	@echo "Verificando contrato na Polygon Mainnet..."
+	$(FORGE) verify-contract \
+		--chain-id 137 \
+		--verifier etherscan \
+		--verifier-url https://api.polygonscan.com/api \
 		--etherscan-api-key $(POLYGONSCAN_API_KEY) \
 		$(CONTRACT_ADDRESS) \
 		src/GoHorse.sol:GoHorse \
