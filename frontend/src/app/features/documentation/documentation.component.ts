@@ -24,6 +24,9 @@ export class DocumentationComponent implements OnInit {
   private tokenService = inject(TokenService);
   private cdr = inject(ChangeDetectorRef);
 
+  polygonScan =
+    'https://polygonscan.com/address/0x7B7758077e51Bc1Be499eF9180f82E16019065cD';
+
   tokenData = signal<TokenInfo | null>(null);
   infoError = signal<string | null>(null);
   isLoadingInfo = signal(false);

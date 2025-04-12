@@ -1,12 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import {
-  ethers,
-  Contract,
-  Signer,
-  TransactionResponse,
-  TransactionReceipt,
-} from 'ethers';
-import GoHorse from '../../../../contracts/amoy/GoHorse.json';
+import { ethers, Contract, Signer, TransactionResponse } from 'ethers';
+import GoHorse from '../../../../contracts/mainnet/GoHorse.json';
 import { WalletService } from '../../core/services/wallet.service';
 import {
   MintExecutionError,
@@ -15,7 +9,7 @@ import {
   ReceiptResult,
 } from './mint.model';
 
-const CONTRACT_ADDRESS = '0xdbda06e01713ed143cea28b68b7c194372860ced';
+const CONTRACT_ADDRESS = '0x7B7758077e51Bc1Be499eF9180f82E16019065cD';
 const CONTRACT_ABI = GoHorse.abi;
 
 @Injectable({
@@ -38,7 +32,9 @@ export class MintContractService {
   ): MintTransactionParams {
     const amountInWei = ethers.parseUnits(amount.toString(), 18);
     const feePerTokenWei = ethers.parseEther(mintFeePerTokenEth.toString());
-    const totalFeeWei = feePerTokenWei * BigInt(amount);
+    const BPS_UNIT = BigInt('1000000000000000000');
+    const wholeTokenAmountForFee = amountInWei / BPS_UNIT;
+    const totalFeeWei = feePerTokenWei * wholeTokenAmountForFee;
     return { amountInWei, totalFeeWei };
   }
 

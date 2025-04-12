@@ -105,7 +105,6 @@ export class MintComponent implements OnInit {
     if (
       !this.mintData.to ||
       !this.mintData.amount ||
-      this.mintData.amount <= 0 ||
       !ethers.isAddress(this.mintData.to)
     ) {
       return 'Endereço inválido ou quantidade inválida/não preenchida.';

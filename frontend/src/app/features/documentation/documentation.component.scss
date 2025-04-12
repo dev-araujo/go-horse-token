@@ -88,6 +88,10 @@
         font-size: var.$font-size-base;
         color: color.$primary-text;
         word-break: break-all;
+
+        strong {
+          font-weight: bolder;
+        }
       }
     }
 

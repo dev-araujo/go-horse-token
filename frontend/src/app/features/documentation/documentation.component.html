@@ -22,7 +22,8 @@
       <div class="info-item">
         <span class="label">Total Mintado:</span>
         <span class="value"
-          >{{ (data.totalMinted | number) ?? "N/A" }} GOHO</span
+          ><strong>{{ (data.totalMinted | number) ?? "N/A" }}</strong>
+          GOHO</span
         >
       </div>
       <div class="info-item">
@@ -42,14 +43,9 @@
       </div>
 
       <div class="info-item">
-        <span class="label">Repositório:</span>
-        <a
-          class="value"
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://github.com/dev-araujo/go-horse-faucet"
-          >Link</a
-        >
+        <span class="label">Endereço do Token:</span>
+
+        <span class="value">0x7B7758077e51Bc1Be499eF9180f82E16019065cD</span>
       </div>
 
       <div class="info-item">
@@ -58,7 +54,7 @@
           class="value"
           target="_blank"
           rel="noopener noreferrer"
-          href="https://amoy.polygonscan.com/address/0xdbda06e01713ed143cea28b68b7c194372860ced#code"
+          [href]="polygonScan"
           >Link</a
         >
       </div>

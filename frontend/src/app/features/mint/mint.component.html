@@ -41,7 +41,7 @@
           id="amount"
           name="amount"
           required
-          min="1"
+          min="0.1"
           [(ngModel)]="mintData.amount"
           #amount="ngModel"
           [class.invalid]="amount.invalid && (amount.dirty || amount.touched)"
@@ -52,8 +52,6 @@
         <div class="error-message">
           @if (amount.errors?.['required']) {
           <span>Quantidade é obrigatória.</span>
-          } @if (amount.errors?.['min']) {
-          <span>Quantidade deve ser maior que zero.</span>
           }
         </div>
         }
