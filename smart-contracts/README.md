@@ -4,16 +4,19 @@
 
 ## Descrição 📝
 
-**GoHorse Token (GOHO)** é um token ERC20 criado com **Foundry** e **OpenZeppelin**. Serve como protótipo para demonstrar a implementação de um token ERC20 com funcionalidades de mintagem pública, onde qualquer pessoa pode mintar tokens pagando uma taxa simbólica. O nome e símbolo são uma brincadeira com a metodologia _eXtreme Go Horse_.
+**GoHorse Token (GOHO)** é um token **ERC20** criado com **Foundry** e **OpenZeppelin**. Este contrato implementa um token ERC20 com um suprimento máximo de 10.000 tokens.
+
+Permite a mintagem de novos tokens mediante o pagamento de uma taxa, que é transferida para um destinatário específico. O proprietário do contrato pode atualizar a taxa de mintagem e o destinatário da taxa. O nome e símbolo são uma brincadeira com a metodologia _eXtreme Go Horse_.
 
 Este repositório contém o contrato:
 
-- **GoHorseToken.sol**: Implementação do token ERC20 GoHorse com mintagem pública e taxa de mintagem.
+- **GoHorse.sol**: Implementação do token ERC20 GoHorse com funcionalidade de mintagem e taxa de mintagem.
 
 ## Endereço do contrato na polygonscan :
 
-**Amoy Testnet** : https://amoy.polygonscan.com/address/0xC7faFBAecD64b1448d9FEf1fF138bF1b08cf943b
-**Polygon Mainnet** : Em breve...
+1. **[Amoy Testnet](https://amoy.polygonscan.com/address/0xC7faFBAecD64b1448d9FEf1fF138bF1b08cf943b)**
+
+2. **[Polygon Mainnet](https://polygonscan.com/address/0x7B7758077e51Bc1Be499eF9180f82E16019065cD)** 
 
 ## Pré-requisitos 🔨
 
@@ -25,7 +28,7 @@ Este repositório contém o contrato:
 1.  **Clone o repositório:**
 
     ```bash
-    git clone https://github.com/dev-araujo/go-horse-faucet.git
+    git clone [https://github.com/dev-araujo/go-horse-faucet.git](https://github.com/dev-araujo/go-horse-faucet.git)
     cd smart-contracts
     ```
 
@@ -84,7 +87,7 @@ forge script script/Deploy.s.sol --rpc-url $POLYGON_MAINNET_RPC_URL --private-ke
 
 ## Uso
 
-Você pode interagir com o contrato `GoHorseToken` implantado usando um explorador de blocos (como Polygonscan) ou ferramentas como Remix:
+Você pode interagir com o contrato `GoHorse` implantado usando um explorador de blocos (como Polygonscan) ou ferramentas como Remix:
 
 ### Mintagem de Tokens
 
@@ -92,11 +95,10 @@ Você pode interagir com o contrato `GoHorseToken` implantado usando um explorad
 - Para mintar, o usuário deve:
   1. Especificar o endereço que receberá os tokens (`to`).
   2. Especificar a quantidade de tokens a serem mintados (`amount`).
-  3. Pagar a taxa de mintagem (`mintFee * amount`) em MATIC (ou a moeda nativa da rede).
+  3. Pagar a taxa de mintagem (`mintFee * amount`) em POL (ou a moeda nativa da rede).
 - A taxa de mintagem é enviada para o endereço `feeRecipient` (configurado no contrato).
 
 ---
-
 
 #### Autor 👷
 
