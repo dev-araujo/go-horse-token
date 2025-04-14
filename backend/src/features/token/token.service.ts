@@ -1,7 +1,7 @@
 import { BlockchainConfig } from "../../config/blockchain.config";
 import { ITokenService } from "./token.interface";
 import { ethers } from "ethers";
-import goHorseAbi from "../../contracts/amoy/GoHorse.json";
+import goHorseAbi from "../../contracts/mainnet/GoHorse.json";
 
 export class TokenService implements ITokenService {
   private readonly contractReader: ethers.Contract;
