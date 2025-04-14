@@ -1,6 +1,6 @@
-# GO Horse API
+# GO Horse API (GOHO) 🐴
 
-Essa é uma api feita com **NodeJS** + **TypeScript** + **Café** para consumir os métodos do contrato [GoHorse](../smart-contracts/), um token ERC20.
+Essa é uma api feita com **NodeJS** + **TypeScript** para consumir os métodos do contrato [GoHorse](../smart-contracts/), um token ERC20.
 
 ## Pré-requisitos
 
@@ -11,16 +11,16 @@ Antes de começar, certifique-se de ter instalado em sua máquina:
 
 ## Endereço do contrato na polygonscan :
 
-**Amoy Testnet** : https://amoy.polygonscan.com/address/0xC7faFBAecD64b1448d9FEf1fF138bF1b08cf943b
-<br/>
-**Polygon Mainnet** : Em breve...
+1. **[Amoy Testnet](https://amoy.polygonscan.com/address/0xC7faFBAecD64b1448d9FEf1fF138bF1b08cf943b)**
+
+2. **[Polygon Mainnet](https://polygonscan.com/address/0x7B7758077e51Bc1Be499eF9180f82E16019065cD)**
 
 ## Execução Local 👨🏼‍💻
 
 1.  **Clone o repositório:**
 
     ```bash
-    git clone https://github.com/dev-araujo/go-horse-faucet.git
+    git clone https://github.com/dev-araujo/go-horse-token.git
     cd backend
     ```
 
@@ -37,8 +37,7 @@ Antes de começar, certifique-se de ter instalado em sua máquina:
     ```env
     PRIVATE_KEY=<SUA_CHAVE_PRIVADA>
     RPC_URL=<SUA_URL_RPC>
-    POLYGONSCAN_API_KEY=<SUA_CHAVE_API_ETHERSCAN>  # Opcional, para verificação
-    TOKEN_ADDRESS=ENDEREÇO_DO_DEPLOY_DO_CONTRATO
+    TOKEN_ADDRESS=<ENDEREÇO_DO_DEPLOY_DO_CONTRATO_NA_POLYGON_MAINNET>
     ```
 
 4.  **Executando:**
@@ -46,6 +45,8 @@ Antes de começar, certifique-se de ter instalado em sua máquina:
     ```bash
     npm run dev
     ```
+
+## Rotas 🎯
 
 ### 1. **Mint Tokens**
 
@@ -56,12 +57,14 @@ Antes de começar, certifique-se de ter instalado em sua máquina:
   - `to` (string): Endereço que receberá os tokens.
   - `amount` (number): Quantidade de tokens a serem mintados.
 - **Exemplo de Requisição**:
+
   ```json
   {
     "to": "0xEnderecoDestino",
     "amount": 100
   }
   ```
+
 - **Resposta de Sucesso**:
   ```json
   {
@@ -82,14 +85,15 @@ Antes de começar, certifique-se de ter instalado em sua máquina:
 - **Descrição**: Retorna os metadados do token.
 - **Método**: `GET`
 - **Endpoint**: `/token/metadata`
+
 - **Resposta de Sucesso**:
   ```json
   {
-    "url": "https://exemplo.com/metadata.json",
+    "url": "[https://github.com/dev-araujo/go-horse-faucet/blob/main/smart-contracts/metadata/gohorse-token-image.jpg?raw=true](https://github.com/dev-araujo/go-horse-faucet/blob/main/smart-contracts/metadata/gohorse-token-image.jpg?raw=true)",
     "name": "Go Horse",
     "symbol": "GOHO",
-    "description": "GOHO token, um token para devs agéis",
-    "image": "https://exemplo.com/imagem.jpg",
+    "description": "GOHO token, um token para devs ágeis",
+    "image": "[https://github.com/dev-araujo/go-horse-faucet/blob/main/smart-contracts/metadata/gohorse-token-image.jpg?raw=true](https://github.com/dev-araujo/go-horse-faucet/blob/main/smart-contracts/metadata/gohorse-token-image.jpg?raw=true)",
     "decimals": 18
   }
   ```
@@ -110,7 +114,7 @@ Antes de começar, certifique-se de ter instalado em sua máquina:
 - **Resposta de Sucesso**:
   ```json
   {
-    "totalMinted": 1000
+    "totalMinted": 0
   }
   ```
 - **Resposta de Erro**:
@@ -130,7 +134,7 @@ Antes de começar, certifique-se de ter instalado em sua máquina:
 - **Resposta de Sucesso**:
   ```json
   {
-    "maxSupply": 10000
+    "maxSupply": 10000000000000000000000
   }
   ```
 - **Resposta de Erro**:
@@ -150,7 +154,7 @@ Antes de começar, certifique-se de ter instalado em sua máquina:
 - **Resposta de Sucesso**:
   ```json
   {
-    "mintFee": 0.01
+    "mintFeePerToken": 0
   }
   ```
 - **Resposta de Erro**:
@@ -159,3 +163,13 @@ Antes de começar, certifique-se de ter instalado em sua máquina:
     "error": "Mensagem de erro"
   }
   ```
+
+---
+
+#### Autor 👷
+
+<img src="https://media.licdn.com/dms/image/v2/D4D03AQFdtLzMPGq-iA/profile-displayphoto-shrink_200_200/B4DZXYBptVG8AY-/0/1743086067092?e=1749081600&v=beta&t=f3BTl84h34Tyak_VLwTjwH1ckx1jM_SrC7mGewpzMA4" width=120 />
+
+[Adriano P Araujo](https://www.linkedin.com/in/araujocode/)
+
+

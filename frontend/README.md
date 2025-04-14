@@ -1,59 +1,73 @@
-# Frontend
+# GoHorse Token (GOHO) - Frontend 🐴
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.2.
+Esta é a aplicação frontend para interagir com o token GoHorse (GOHO), um token ERC20 implantado na rede Polygon. A aplicação permite aos usuários conectar suas carteiras, visualizar informações sobre o token e mintar novos tokens GOHO (sujeito a uma taxa).
 
-## Development server
+Este projeto foi gerado com [Angular CLI](https://github.com/angular/angular-cli) versão 19.0.2.
 
-To start a local development server, run:
+## Visão Geral
+
+A aplicação serve como uma interface para o contrato inteligente do GoHorse Token, fornecendo funcionalidades como:
+
+- **Mintagem de Tokens:** Permite que usuários mintem novos tokens GOHO diretamente para suas carteiras conectadas, pagando a taxa de mintagem definida no contrato.
+- **Informações do Token:** Exibe detalhes atuais do token, como nome, símbolo, suprimento total, total mintado e taxa de mintagem.
+- **Conexão com Carteira:** Integração com carteiras Ethereum (como MetaMask) para permitir interações com a blockchain Polygon.
+- **Sobre o Projeto:** Uma seção explicando a filosofia "GoHorse" por trás do token (para fins de diversão e aprendizado).
+
+## Tecnologias Utilizadas
+
+- **Framework:** Angular 19+
+- **Blockchain Interaction:** Ethers.js v6
+- **Estilização:** SCSS
+- **Rede Blockchain:** Polygon (Mainnet e/ou Amoy Testnet)
+- **SSR:** Angular SSR com Express (configurado, scripts disponíveis)
+
+## Endereço do contrato na polygonscan :
+
+1. **[Amoy Testnet](https://amoy.polygonscan.com/address/0xC7faFBAecD64b1448d9FEf1fF138bF1b08cf943b)**
+
+2. **[Polygon Mainnet](https://polygonscan.com/address/0x7B7758077e51Bc1Be499eF9180f82E16019065cD)**
+
+## Pré-requisitos
+
+- [Node.js](https://nodejs.org/) (versão LTS recomendada)
+- npm (geralmente vem com o Node.js)
+- [Angular CLI](https://angular.dev/tools/cli) (v19.0.2 ou compatível): `npm install -g @angular/cli` (opcional, pode usar `npx`)
+- Uma carteira de navegador compatível com Ethereum (ex: MetaMask) configurada para a rede Polygon (Mainnet ou Amoy).
+
+## Instalação
+
+1.  **Clone o repositório:**
+    ```bash
+    git clone https://github.com/dev-araujo/go-horse-token.git
+    cd frontend
+    ```
+2.  **Instale as dependências:**
+
+    ```bash
+    npm install
+    ```
+
+3.  **Executando:**
+
+> ⚠️ Não esqueça de rodar o backend antes de executar front, [instruções aqui](../backend/README.md)
 
 ```bash
-ng serve
+  ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+ou
 
 ```bash
-ng generate component component-name
+npm run start
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+4. **Acesse a porta 4200**
 
-```bash
-ng generate --help
-```
+---
 
-## Building
+#### Autor 👷
 
-To build the project run:
+<img src="https://media.licdn.com/dms/image/v2/D4D03AQFdtLzMPGq-iA/profile-displayphoto-shrink_200_200/B4DZXYBptVG8AY-/0/1743086067092?e=1749081600&v=beta&t=f3BTl84h34Tyak_VLwTjwH1ckx1jM_SrC7mGewpzMA4" width=120 />
 
-```bash
-ng build
-```
+[Adriano P Araujo](https://www.linkedin.com/in/araujocode/)
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
