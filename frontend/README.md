@@ -1,5 +1,9 @@
 # GoHorse Token (GOHO) - Frontend 🐴
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-5965E0.svg?labelColor=121214&style=for-the-badge)](https://opensource.org/licenses/MIT)
+
+![pé de pano](../assets/gohorse-pe-de-pano.jpg)
+
 Esta é a aplicação frontend para interagir com o token GoHorse (GOHO), um token ERC20 implantado na rede Polygon. A aplicação permite aos usuários conectar suas carteiras, visualizar informações sobre o token e mintar novos tokens GOHO (sujeito a uma taxa).
 
 Este projeto foi gerado com [Angular CLI](https://github.com/angular/angular-cli) versão 19.0.2.
@@ -70,4 +74,3 @@ npm run start
 <img src="https://media.licdn.com/dms/image/v2/D4D03AQFdtLzMPGq-iA/profile-displayphoto-shrink_200_200/B4DZXYBptVG8AY-/0/1743086067092?e=1749081600&v=beta&t=f3BTl84h34Tyak_VLwTjwH1ckx1jM_SrC7mGewpzMA4" width=120 />
 
 [Adriano P Araujo](https://www.linkedin.com/in/araujocode/)
-

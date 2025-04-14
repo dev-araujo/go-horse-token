@@ -1,5 +1,9 @@
 # GO Horse API (GOHO) 🐴
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-5965E0.svg?labelColor=121214&style=for-the-badge)](https://opensource.org/licenses/MIT)
+
+![pé de pano](../assets/gohorse-pe-de-pano.jpg)
+
 Essa é uma api feita com **NodeJS** + **TypeScript** para consumir os métodos do contrato [GoHorse](../smart-contracts/), um token ERC20.
 
 ## Pré-requisitos
@@ -171,5 +175,3 @@ Antes de começar, certifique-se de ter instalado em sua máquina:
 <img src="https://media.licdn.com/dms/image/v2/D4D03AQFdtLzMPGq-iA/profile-displayphoto-shrink_200_200/B4DZXYBptVG8AY-/0/1743086067092?e=1749081600&v=beta&t=f3BTl84h34Tyak_VLwTjwH1ckx1jM_SrC7mGewpzMA4" width=120 />
 
 [Adriano P Araujo](https://www.linkedin.com/in/araujocode/)
-
-

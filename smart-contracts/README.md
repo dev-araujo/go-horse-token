@@ -1,6 +1,6 @@
 # GoHorse Token (GOHO) 🐴
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-5965E0.svg?labelColor=121214)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-5965E0.svg?labelColor=121214&style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 ## Descrição 📝
 

@@ -1,140 +1,81 @@
-# Go Horse Token (GOHO) 🐴
+# 🐴 Go Horse Token (GOHO) - ERC20 on Polygon
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-5965E0.svg?labelColor=121214)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-5965E0.svg?labelColor=121214&style=for-the-badge)](https://opensource.org/licenses/MIT) ![Polygon](https://img.shields.io/badge/Polygon-8247E5?logo=polygon&logoColor=white&style=for-the-badge) ![Foundry](https://img.shields.io/badge/Foundry-F5A623?logo=ethereum&logoColor=black&style=for-the-badge)
 
-Bem-vindo ao projeto **Go Horse Token (GOHO)**! Este repositório contém todos os componentes necessários para implantar, interagir e gerenciar o **GOHO**, um token **ERC20** na rede **Polygon**, inspirado na filosofia "eXtreme Go Horse" para fins de aprendizado e diversão.
+**O token oficial da filosofia eXtreme Go Horse!** Um projeto completo de Web3 com smart contracts, API e interface para mintagem de tokens ERC20 na rede Polygon.
 
-O projeto é dividido em três partes principais:
+[▶️ Acesse a Interface](https://goho-view.vercel.app/) | [📜 Smart Contract (Mainnet)](https://polygonscan.com/address/0x7B7758077e51Bc1Be499eF9180f82E16019065cD)
 
-1.  **Smart Contracts:** O núcleo do token, implementado em **Solidity** usando **Foundry** e **OpenZeppelin**. Define as regras do token GOHO, incluindo suprimento máximo, mintagem com taxa e funções administrativas.
-2.  **Backend API:** Uma API construída com Node.js e TypeScript que serve como intermediário para interagir com o smart contract na blockchain, expondo endpoints para mintagem e consulta de informações do token.
-3.  **Frontend Application:** Uma aplicação Angular que fornece uma interface de usuário para conectar carteiras (como MetaMask), visualizar detalhes do token GOHO e mintar novos tokens diretamente através da interação com a blockchain e/ou backend.
+![Interface Preview](./assets/goho-interface.png)
 
-## Visão Geral dos Componentes
+## 🌟 Features Principais
 
-- **`/smart-contracts`**: Contém o código Solidity (`GoHorse.sol`), testes, scripts de deploy (Foundry) e metadados do token ERC20.
-  - [Detalhes em `/smart-contracts/README.md`](./smart-contracts/README.md)
-- **`/backend`**: Contém a API Node.js/TypeScript para interagir com o contrato implantado. Responsável por operações como mintagem (iniciada pelo admin/backend) e leitura de dados da blockchain.
-  - [Detalhes em `/backend/README.md`](./backend/README.md)
-- **`/frontend`**: Contém a aplicação Angular que permite aos usuários conectar suas carteiras, ver informações do token (suprimento, taxa de mintagem, etc.) e iniciar o processo de mintagem (pagando a taxa necessária).
-  - [Detalhes em `/frontend/README.md`](./frontend/README.md)
+- **Token ERC20 completo** com mintagem controlada
+- **Taxa de mintagem** configurável
+- **Dashboard intuitivo** para visualização de saldos e transações
+- **Integração direta com MetaMask**
+- **API intermediária** para operações seguras
 
-## Endereços dos Contratos na Polygon
+## 🏗️ Arquitetura do Projeto
 
-O contrato GoHorse Token (GOHO) está implantado nos seguintes endereços:
+| Componente         | Tecnologias                     | Descrição                                       |
+| ------------------ | ------------------------------- | ----------------------------------------------- |
+| **Smart Contract** | Solidity, Foundry, OpenZeppelin | Lógica do token GOHO e regras de mintagem       |
+| **Backend API**    | Node.js, TypeScript, Ethers.js  | Ponte segura entre frontend e blockchain        |
+| **Frontend**       | Angular 19+, Ethers.js          | Interface para usuários interagirem com o token |
 
-1.  **Polygon Amoy Testnet:** [`0xC7faFBAecD64b1448d9FEf1fF138bF1b08cf943b`](https://amoy.polygonscan.com/address/0xC7faFBAecD64b1448d9FEf1fF138bF1b08cf943b)
-2.  **Polygon Mainnet:** [`0x7B7758077e51Bc1Be499eF9180f82E16019065cD`](https://polygonscan.com/address/0x7B7758077e51Bc1Be499eF9180f82E16019065cD)
+## 📂 Estrutura do Repositório
 
-## Tecnologias Utilizadas
+```
+.
+├── smart-contracts/   # Contratos, testes e scripts de deploy (Foundry)
+│   ├── src/GoHorse.sol
+│   ├── test/
+│   └── script/
+│
+├── backend/           # API Node.js/TypeScript
+│   ├── src/
+│   └── blockchain.config.ts
+│
+├── frontend/          # Aplicação Angular
+│   ├── src/app/
+│   └── assets/
+│
+└── DOC.md             # Guia completo de instalação e execução
+```
 
-- **Smart Contracts:**
-  - Solidity
-  - Foundry (Framework de desenvolvimento/teste/deploy)
-  - OpenZeppelin Contracts (Padrões ERC20 e segurança)
-- **Backend:**
-  - Node.js
-  - TypeScript
-  - Ethers.js (Interação com Blockchain)
-- **Frontend:**
-  - Angular (v19+)
-  - TypeScript
-  - Ethers.js v6 (Interação com Blockchain via carteira do usuário)
-  - SCSS
-- **Blockchain:**
-  - Polygon (Mainnet & Amoy Testnet)
+## 🔗 Contratos Deployados
 
-## Começando (Ambiente Local)
+| Rede                | Endereço do Contrato                                                                                 | Explorer      |
+| ------------------- | ---------------------------------------------------------------------------------------------------- | ------------- |
+| **Polygon Mainnet** | [`0x7B775...065cD`](https://polygonscan.com/address/0x7B7758077e51Bc1Be499eF9180f82E16019065cD)      | PolygonScan   |
+| **Polygon Amoy**    | [`0xC7faF...c943b`](https://amoy.polygonscan.com/address/0xC7faFBAecD64b1448d9FEf1fF138bF1b08cf943b) | Amoy Explorer |
 
-Siga estas etapas para configurar e executar o projeto completo localmente.
+## 🚀 Começando
 
-### Pré-requisitos
+Para executar localmente:
 
-Certifique-se de ter as seguintes ferramentas instaladas:
+```bash
+# 1. Clone o repositório
+git clone https://github.com/seu-usuario/goho-token.git
 
-- [Node.js](https://nodejs.org/) (Versão LTS ou v12+ conforme indicado nos subprojetos)
-- [npm](https://www.npmjs.com/) (geralmente incluído com Node.js)
-- [Foundry](https://book.getfoundry.sh/) (Necessário para compilar/testar/deployar os smart contracts)
-- Uma carteira de navegador compatível com Ethereum (ex: [MetaMask](https://metamask.io/)) configurada para a rede Polygon (Amoy para testes, Mainnet para produção).
-- [Angular CLI](https://angular.dev/tools/cli) (Opcional, pode usar `npx`): `npm install -g @angular/cli`
+# 2. Siga os guias específicos de cada componente:
+- [Smart Contracts](./smart-contracts/README.md)
+- [Backend API](./backend/README.md)
+- [Frontend](./frontend/README.md)
 
-### Instalação
+# Ou consulte o guia completo em DOC.md
 
-1.  **Clone o repositório:**
+- [DOC](./DOC.md)
+```
 
-    ```bash
-    git clone https://github.com/dev-araujo/go-horse-token.git
-    cd go-horse-token
-    ```
+## 🛠️ Stack Tecnológica
 
-2.  **Instale as dependências para cada componente:**
-    Navegue até cada diretório e instale suas dependências específicas:
+[![Solidity](https://img.shields.io/badge/Solidity-363636?logo=solidity&logoColor=white&style=for-the-badge)](https://soliditylang.org/) [![Foundry](https://img.shields.io/badge/Foundry-F5A623?logo=ethereum&logoColor=black&style=for-the-badge)](https://getfoundry.sh/) [![Angular](https://img.shields.io/badge/Angular-DD0031?logo=angular&logoColor=white&style=for-the-badge)](https://angular.io/) [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white&style=for-the-badge)](https://www.typescriptlang.org/) [![Polygon](https://img.shields.io/badge/Polygon-8247E5?logo=polygon&logoColor=white&style=for-the-badge)](https://polygon.technology/) [![Node.js](https://img.shields.io/badge/Node.js-339933?logo=nodedotjs&logoColor=white&style=for-the-badge)](https://nodejs.org/) [![Ethers.js](https://img.shields.io/badge/Ethers.js-3C3C3D?logo=ethereum&logoColor=white&style=for-the-badge)](https://docs.ethers.org/)
 
-    ```bash
-    # Para o Backend
-    cd backend
-    npm install
-    cd ..
+## 👨‍💻 Autor
 
-    # Para o Frontend
-    cd frontend
-    npm install
-    cd ..
-
-    # Para os Smart Contracts (usando Foundry)
-    cd smart-contracts
-    forge install
-    cd ..
-    ```
-
-3.  **Configuração de Ambiente (.env):**
-    Cada componente que interage com a blockchain ou requer chaves privadas precisa de um arquivo `.env`. **Nunca adicione arquivos `.env` ao Git.**
-
-    - **Backend:** Crie um arquivo `backend/.env`. Veja as variáveis necessárias em [`backend/README.md`](./backend/README.md).
-
-    - **Smart Contracts:** Crie um arquivo `smart-contracts/.env`. Veja as variáveis necessárias em [`smart-contracts/README.md`](./smart-contracts/README.md).
-
-### Executando o Projeto
-
-Para executar a aplicação completa localmente, você geralmente precisará iniciar o backend e o frontend. A interação com os smart contracts pode ser feita localmente (via testes/nó local) ou diretamente nas redes de teste/principal.
-
-1.  **Smart Contracts (Opcional Localmente):**
-
-    - Você pode compilar os contratos com `forge build` dentro da pasta `smart-contracts`.
-    - Para deploy local ou em testnets/mainnet, siga as instruções em [`smart-contracts/README.md`](./smart-contracts/README.md).
-
-2.  **Executar o Backend:**
-
-    - Navegue até a pasta `backend`.
-    - Execute o servidor de desenvolvimento:
-      ```bash
-      npm run dev
-      ```
-    - A API estará disponível (geralmente em `http://localhost:PORTA_BACKEND`, verifique o console).
-
-3.  **Executar o Frontend:**
-    - **Certifique-se de que o backend está rodando.**
-    - Navegue até a pasta `frontend`.
-    - Execute a aplicação Angular:
-      ```bash
-      npm run start
-      ```
-      ou
-      ```bash
-      ng serve
-      ```
-    - Acesse a aplicação no seu navegador, geralmente em `http://localhost:4200`.
-
-## Documentação Detalhada
-
-Para informações mais aprofundadas sobre cada componente, incluindo configuração específica, arquitetura, testes e deploy, consulte os READMEs individuais:
-
-- **Smart Contracts:** [`./smart-contracts/README.md`](./smart-contracts/README.md)
-- **Backend:** [`./backend/README.md`](./backend/README.md)
-- **Frontend:** [`./frontend/README.md`](./frontend/README.md)
-
-## Autor 👷
-
-<img src="https://media.licdn.com/dms/image/v2/D4D03AQFdtLzMPGq-iA/profile-displayphoto-shrink_200_200/B4DZXYBptVG8AY-/0/1743086067092?e=1749081600&v=beta&t=f3BTl84h34Tyak_VLwTjwH1ckx1jM_SrC7mGewpzMA4" width=120 />
-
-[Adriano P Araujo](https://www.linkedin.com/in/araujocode/)
+  <img src="https://media.licdn.com/dms/image/v2/D4D03AQFdtLzMPGq-iA/profile-displayphoto-shrink_200_200/B4DZXYBptVG8AY-/0/1743086067092?e=1749081600&v=beta&t=f3BTl84h34Tyak_VLwTjwH1ckx1jM_SrC7mGewpzMA4" width="120" style="border-radius: 50%;"/>
+  
+  **Adriano P Araujo**  
+  [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white&style=for-the-badge)](https://www.linkedin.com/in/araujocode/) [![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white&style=for-the-badge)](https://github.com/seu-usuario)
