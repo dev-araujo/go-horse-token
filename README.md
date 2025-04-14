@@ -2,7 +2,9 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-5965E0.svg?labelColor=121214&style=for-the-badge)](https://opensource.org/licenses/MIT) ![Polygon](https://img.shields.io/badge/Polygon-8247E5?logo=polygon&logoColor=white&style=for-the-badge) ![Foundry](https://img.shields.io/badge/Foundry-F5A623?logo=ethereum&logoColor=black&style=for-the-badge)
 
-**O token oficial da filosofia eXtreme Go Horse!** Um projeto completo de Web3 com smart contracts, API e interface para mintagem de tokens ERC20 na rede Polygon.
+**O token inspirado na filosofia eXtreme Go Horse!** Um projeto completo de Web3 com smart contracts, API e interface para mintagem de tokens ERC20 na rede Polygon.
+Esse projeto visa ser uma brincadeira séria, podendo ou não se desenvolver em projetos paralelos. Para adquirir tokens GOHO acesso nossa plataforma abaixo:
+
 
 [▶️ Acesse a Interface](https://goho-view.vercel.app/) | [📜 Smart Contract (Mainnet)](https://polygonscan.com/address/0x7B7758077e51Bc1Be499eF9180f82E16019065cD)
 
