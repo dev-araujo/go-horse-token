@@ -1,4 +1,4 @@
-# Go Horse Token e Faucet 🐴
+# Go Horse Token 🐴
 
 ![Pé de pano - go horse](./assets/gohorse-pe-de-pano.jpg)
 
