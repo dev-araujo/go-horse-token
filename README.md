@@ -10,7 +10,7 @@ Esse projeto visa ser uma brincadeira séria, podendo ou não se desenvolver em 
 
 [▶️ Acesse a Interface](https://goho-view.vercel.app/) | [📜 Smart Contract (Mainnet)](https://polygonscan.com/address/0x7B7758077e51Bc1Be499eF9180f82E16019065cD)
 
-![Interface Preview](./assets/goho-interface.png)
+![Interface Preview](https://raw.githubusercontent.com/dev-araujo/go-horse-token/refs/heads/main/assets/goho-interface.png)
 
 ## 🌟 Features Principais
 
