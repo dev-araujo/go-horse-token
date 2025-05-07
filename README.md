@@ -1,6 +1,8 @@
 # 🐴 Go Horse Token (GOHO) - ERC20 on Polygon
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-5965E0.svg?labelColor=121214&style=for-the-badge)](https://opensource.org/licenses/MIT) ![Polygon](https://img.shields.io/badge/Polygon-8247E5?logo=polygon&logoColor=white&style=for-the-badge) ![Foundry](https://img.shields.io/badge/Foundry-F5A623?logo=ethereum&logoColor=black&style=for-the-badge)
+[![License: MIT](https://img.shields.io/badge/License-MIT-5965E0.svg?labelColor=121214&style=for-the-badge)](https://opensource.org/licenses/MIT) ![Polygon](https://img.shields.io/badge/Polygon-8247E5?logo=polygon&logoColor=white&style=for-the-badge) ![Foundry](https://img.shields.io/badge/Foundry-F5A623?logo=ethereum&logoColor=black&style=for-the-badge)   [![Solidity](https://img.shields.io/badge/Solidity-%20-363636?style=for-the-badge&logo=solidity&logoColor=white)](https://soliditylang.org/) [![Ethers.js](https://img.shields.io/badge/Ethers.js-%20-204991?style=for-the-badge&logo=ethers&logoColor=white)](https://ethers.io/) [![OpenZeppelin](https://img.shields.io/badge/OpenZeppelin-%20-4E5EE4?style=for-the-badge&logo=openzeppelin&logoColor=white)](https://www.openzeppelin.com/)
+
+![Angular](https://img.shields.io/badge/angular-%23DD0031.svg?style=for-the-badge&logo=angular&logoColor=white) ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) 
 
 **O token inspirado na filosofia eXtreme Go Horse!** Um projeto completo de Web3 com smart contracts, API e interface para mintagem de tokens ERC20 na rede Polygon.
 Esse projeto visa ser uma brincadeira séria, podendo ou não se desenvolver em projetos paralelos. Para adquirir tokens GOHO acesso nossa plataforma abaixo:
