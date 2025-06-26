@@ -1,6 +1,5 @@
 import { Injectable, inject } from '@angular/core';
 import { ethers, Contract, Signer, TransactionResponse } from 'ethers';
-import GoHorse from '../../../../contracts/mainnet/GoHorse.json';
 import { WalletService } from '../../core/services/wallet.service';
 import {
   MintExecutionError,
@@ -8,18 +7,23 @@ import {
   MintTransactionParams,
   ReceiptResult,
 } from './mint.model';
-
-const CONTRACT_ADDRESS = '0x7B7758077e51Bc1Be499eF9180f82E16019065cD';
-const CONTRACT_ABI = GoHorse.abi;
+import { NetworkService } from '../../core/services/network.service';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MintContractService {
   private walletService = inject(WalletService);
+  private networkService = inject(NetworkService);
 
-  getContract(signer: Signer): Contract {
-    return new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+  async getContract(signer: Signer): Promise<Contract> {
+    const contractAddress = await firstValueFrom(this.networkService.getContractAddress());
+    if (!contractAddress) {
+      throw new Error('Contract address not available.');
+    }
+    const contractAbi = this.networkService.getContractAbi();
+    return new ethers.Contract(contractAddress, contractAbi, signer);
   }
 
   getSigner(): Signer | null {
@@ -51,7 +55,7 @@ export class MintContractService {
     }
 
     try {
-      const contract = this.getContract(signer);
+      const contract = await this.getContract(signer);
       const tx: TransactionResponse = await contract['mint'](to, amountInWei, {
         value: totalFeeWei,
       });

@@ -8,22 +8,27 @@ import {
 } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { WalletService } from '../../core/services/wallet.service';
+import { Network, NetworkService } from '../../core/services/network.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-topnavbar',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, CommonModule, FormsModule],
   templateUrl: './topnavbar.component.html',
   styleUrl: './topnavbar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TopnavbarComponent {
   private walletService = inject(WalletService);
+  private networkService = inject(NetworkService);
   private cdr = inject(ChangeDetectorRef);
 
   isMenuOpen = signal(false);
 
   isConnected = this.walletService.isConnected;
   connectedAccount = this.walletService.connectedAccount;
+  activeNetwork = this.networkService.activeNetwork;
 
   displayAddress = computed(() => {
     const account = this.connectedAccount();
@@ -66,5 +71,10 @@ export class TopnavbarComponent {
     console.log('Carteira desconectada.');
     this.cdr.markForCheck();
     this.closeMenu();
+  }
+
+  onNetworkChange(event: Event): void {
+    const selectElement = event?.target as HTMLSelectElement;
+    this.networkService.setNetwork(selectElement?.value as Network);
   }
 }

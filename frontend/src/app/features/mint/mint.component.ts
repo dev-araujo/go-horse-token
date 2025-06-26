@@ -21,6 +21,7 @@ import { WalletService } from '../../core/services/wallet.service';
 import { DecimalPipe } from '@angular/common';
 import { ethers } from 'ethers';
 import { MintContractService } from './mint-contract.service';
+import { NetworkService } from '../../core/services/network.service';
 
 @Component({
   selector: 'app-mint',
@@ -33,6 +34,7 @@ export class MintComponent implements OnInit {
   private tokenService = inject(TokenService);
   walletService = inject(WalletService);
   private mintContractService = inject(MintContractService);
+  public networkService = inject(NetworkService);
   private cdr = inject(ChangeDetectorRef);
 
   mintData: MintData = { to: '', amount: null };
@@ -48,6 +50,11 @@ export class MintComponent implements OnInit {
       const account = this.walletService.connectedAccount();
       this.updateRecipientAddress(account);
       this.cdr.markForCheck();
+    });
+
+    effect(() => {
+      this.networkService.activeNetwork();
+      this.fetchMintFee();
     });
   }
 

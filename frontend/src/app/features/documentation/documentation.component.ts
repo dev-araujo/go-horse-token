@@ -4,14 +4,30 @@ import {
   inject,
   OnInit,
   signal,
-  ChangeDetectorRef,
+  computed,
 } from '@angular/core';
-import { DecimalPipe } from '@angular/common';
-import { finalize } from 'rxjs';
+import {
+  DecimalPipe,
+  CommonModule,
+  TitleCasePipe,
+  UpperCasePipe,
+} from '@angular/common';
+import {
+  finalize,
+  switchMap,
+  tap,
+  catchError,
+  of,
+  map,
+  startWith,
+  Subject,
+} from 'rxjs';
 import { TokenService } from '../../core/services/token.service';
 import { TokenInfo } from './documenation.model';
+import { NetworkService } from '../../core/services/network.service';
+import { toSignal, toObservable } from '@angular/core/rxjs-interop';
 
-const CORE = [DecimalPipe];
+const CORE = [DecimalPipe, CommonModule, TitleCasePipe, UpperCasePipe];
 
 @Component({
   selector: 'app-documentation',
@@ -20,61 +36,76 @@ const CORE = [DecimalPipe];
   styleUrl: './documentation.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DocumentationComponent implements OnInit {
+export class DocumentationComponent {
   private tokenService = inject(TokenService);
-  private cdr = inject(ChangeDetectorRef);
+  public networkService = inject(NetworkService);
 
-  polygonScan =
-    'https://polygonscan.com/address/0x7B7758077e51Bc1Be499eF9180f82E16019065cD';
-
-  tokenData = signal<TokenInfo | null>(null);
-  infoError = signal<string | null>(null);
   isLoadingInfo = signal(false);
+  infoError = signal<string | null>(null);
 
-  ngOnInit(): void {
-    this.fetchTokenData();
-  }
+  tokenAddress = toSignal(
+    toObservable(this.networkService.activeNetwork).pipe(
+      switchMap(() => this.networkService.getContractAddress())
+    ),
+    { initialValue: null }
+  );
 
-  fetchTokenData(): void {
-    this.isLoadingInfo.set(true);
-    this.infoError.set(null);
-    this.tokenData.set(null);
-    this.cdr.markForCheck();
+  private refreshTrigger = new Subject<void>();
+  polygonScan = computed(() => this.networkService.getExplorerUrl());
 
-    this.tokenService
-      .getTokenInfo()
-      .pipe(
-        finalize(() => {
-          this.isLoadingInfo.set(false);
-          this.cdr.markForCheck();
-        })
+  tokenData = toSignal(
+    toObservable(this.networkService.activeNetwork).pipe(
+      switchMap((activeNetwork) =>
+        this.refreshTrigger.pipe(
+          startWith(undefined),
+          tap(() => {
+            this.isLoadingInfo.set(true);
+            this.infoError.set(null);
+          }),
+          switchMap(() =>
+            this.tokenService.getTokenInfo().pipe(
+              catchError((error) => {
+                this.isLoadingInfo.set(false);
+                console.error(
+                  'Erro inesperado ao buscar dados do token:',
+                  error
+                );
+                this.infoError.set(
+                  'Ocorreu um erro inesperado ao buscar informações.'
+                );
+                return of(null);
+              }),
+              finalize(() => {
+                this.isLoadingInfo.set(false);
+              })
+            )
+          ),
+          map((results) => {
+            if (this.isValidTokenInfo(results)) {
+              this.isLoadingInfo.set(false);
+
+              return results;
+            } else {
+              if (!this.infoError()) {
+                this.infoError.set(
+                  'Não foi possível buscar todas as informações do token ou os dados são inválidos.'
+                );
+              }
+              return null;
+            }
+          })
+        )
       )
-      .subscribe({
-        next: (results) => this.handleTokenInfoResult(results),
-        error: (error) => this.handleTokenInfoError(error),
-      });
-  }
+    ),
+    { initialValue: null }
+  );
 
-  private handleTokenInfoResult(results: TokenInfo | null): void {
-    if (this.isValidTokenInfo(results)) {
-      this.tokenData.set(results);
-    } else {
-      this.infoError.set(
-        'Não foi possível buscar todas as informações do token ou os dados são inválidos.'
-      );
-      this.tokenData.set(null);
-    }
+  onRefreshClick(): void {
+    this.refreshTrigger.next();
   }
-
   private isValidTokenInfo(data: TokenInfo | null): data is TokenInfo {
     return (
       !!data && (data.metadata?.name !== 'Erro' || data.totalMinted !== null)
     );
-  }
-
-  private handleTokenInfoError(error: any): void {
-    console.error('Erro inesperado ao buscar dados do token:', error);
-    this.infoError.set('Ocorreu um erro inesperado ao buscar informações.');
-    this.tokenData.set(null);
   }
 }

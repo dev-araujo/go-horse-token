@@ -5,7 +5,7 @@
   </header>
 
   <section class="mint-form card">
-    <h2>Mintar Novos Tokens</h2>
+    <h2>Mintar Novos Tokens ({{ networkService.activeNetwork() }})</h2>
     <form (ngSubmit)="onMintSubmit(mintForm)" #mintForm="ngForm">
       <div class="form-group">
         <label for="toAddress">Endereço Destino (Wallet):</label>
@@ -87,7 +87,9 @@
         <p>
           Transação:
           <a
-            href="https://amoy.polygonscan.com/tx/{{ result.transactionHash }}"
+            href="{{ networkService.getExplorerUrl() }}/tx/{{
+              result.transactionHash
+            }}"
             target="_blank"
             rel="noopener noreferrer"
             >{{ result.transactionHash }}</a
@@ -107,7 +109,9 @@
         <p>
           Transação:
           <a
-            href="https://amoy.polygonscan.com/tx/{{ lastTransactionHash() }}"
+            href="{{ networkService.getExplorerUrl() }}/tx/{{
+              lastTransactionHash()
+            }}"
             target="_blank"
             rel="noopener noreferrer"
             >{{ lastTransactionHash() }}</a

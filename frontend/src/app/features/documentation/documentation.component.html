@@ -1,7 +1,7 @@
 <div class="docs-container container">
   <section class="token-info card">
     <h2>Informações Atuais do Token</h2>
-    <button (click)="fetchTokenData()" [disabled]="isLoadingInfo()">
+    <button (click)="onRefreshClick()" [disabled]="isLoadingInfo()">
       @if(isLoadingInfo()) {
       <span>Carregando... <span class="spinner"></span></span>
       } @else {
@@ -39,22 +39,26 @@
 
       <div class="info-item">
         <span class="label">Rede:</span>
-        <span class="value">Polygon</span>
+        <span class="value">{{
+          networkService.activeNetwork() | uppercase
+        }}</span>
       </div>
 
       <div class="info-item">
         <span class="label">Endereço do Token:</span>
 
-        <span class="value">0x7B7758077e51Bc1Be499eF9180f82E16019065cD</span>
+        <span class="value">{{ tokenAddress() }}</span>
       </div>
 
       <div class="info-item">
-        <span class="label">PolygonScan:</span>
+        <span class="label"
+          >{{ networkService.activeNetwork() | titlecase }}Scan:</span
+        >
         <a
           class="value"
           target="_blank"
           rel="noopener noreferrer"
-          [href]="polygonScan"
+          [href]="polygonScan() + '/address/' + tokenAddress()"
           >Link</a
         >
       </div>

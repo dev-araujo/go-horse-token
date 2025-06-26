@@ -4,7 +4,7 @@
 .topnavbar {
   width: 100%;
   background-color: var.$white;
-  padding: var.$spacing-sm var.$spacing-md;
+
   border-bottom: 1px solid var.$border-color;
   position: sticky;
   top: 0;
@@ -13,7 +13,6 @@
   &__content {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     flex-wrap: wrap;
     max-width: 1200px;
     margin: 0 auto;
@@ -35,6 +34,7 @@
   &__actions {
     display: flex;
     align-items: center;
+    gap: 16px;
 
     nav {
       display: none;
@@ -87,6 +87,36 @@
 
       &:hover {
         opacity: 0.9;
+      }
+    }
+    .network-select-container {
+      select {
+        width: 100%;
+        padding: 10px 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: #fff;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+
+        &:focus {
+          outline: none;
+          border-color: color.$accent-color;
+          box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.4);
+        }
+        option {
+          padding: 10px;
+          background-color: #fff;
+          color: #333;
+
+          &:hover {
+            background-color: color.$accent-color !important;
+            color: #fff;
+          }
+        }
       }
     }
 
@@ -174,6 +204,13 @@
         padding: var.$spacing-sm var.$spacing-md;
         margin-left: 0;
       }
+      // .network-select-container select {
+      //   font-size: 1rem;
+      //   padding: 16px 40px 16px 24px;
+      //   background-position: right 16px center;
+      //   background-size: 20px;
+      //   max-width: none;
+      // }
     }
   }
 

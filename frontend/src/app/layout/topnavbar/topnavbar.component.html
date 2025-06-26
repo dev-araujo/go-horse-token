@@ -30,6 +30,17 @@
         >
       </nav>
 
+      <div class="network-select-container">
+        <select
+          [ngModel]="activeNetwork()"
+          (ngModelChange)="onNetworkChange($event)"
+          (change)="onNetworkChange($event)"
+        >
+          <option value="amoy">Amoy Testnet</option>
+          <option value="mainnet">Polygon Mainnet</option>
+        </select>
+      </div>
+
       <button class="connect-btn" (click)="handleWalletAction()">
         {{ displayAddress() }}
       </button>

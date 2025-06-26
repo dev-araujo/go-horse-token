@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal, Injector, runInInjectionContext } from '@angular/core';
 import { environment } from '../../../environments/environments';
-import { Observable, map, catchError, of, forkJoin } from 'rxjs';
+import { Observable, map, catchError, of, forkJoin, switchMap } from 'rxjs';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { MintFeeResponse } from '../../features/mint/mint.model';
 import {
   MaxSupplyResponse,
@@ -9,13 +10,20 @@ import {
   TokenMetadata,
   TotalMintedResponse,
 } from '../../features/documentation/documenation.model';
+import { NetworkService } from './network.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TokenService {
   private http = inject(HttpClient);
-  private apiUrl = environment.apiUrl || '/api/token';
+  private networkService = inject(NetworkService);
+  private injector = inject(Injector);
+  private baseUrl = environment.apiUrl || '';
+
+  private get apiUrl(): string {
+    return `${this.baseUrl}/token/${this.networkService.activeNetwork()}`;
+  }
 
   getMintFee(): Observable<number | null> {
     return this.http.get<MintFeeResponse>(`${this.apiUrl}/mint-fee`).pipe(
@@ -50,22 +58,28 @@ export class TokenService {
   }
 
   getTokenInfo(): Observable<TokenInfo | any> {
-    return forkJoin({
-      metadata: this.getMetadata(),
-      totalMinted: this.getTotalMinted(),
-      maxSupply: this.getMaxSupply(),
-      mintFee: this.getMintFee(),
-    }).pipe(
-      map((results) => results as TokenInfo),
-      catchError((error) => {
-        console.error('Erro ao buscar todas as informações do token:', error);
-        return of({
-          metadata: { name: 'Erro', symbol: 'Erro' },
-          totalMinted: null,
-          maxSupply: null,
-          mintFee: null,
-        });
-      })
+    return runInInjectionContext(this.injector, () =>
+      toObservable(this.networkService.activeNetwork)
+    ).pipe(
+      switchMap(() =>
+        forkJoin({
+          metadata: this.getMetadata(),
+          totalMinted: this.getTotalMinted(),
+          maxSupply: this.getMaxSupply(),
+          mintFee: this.getMintFee(),
+        }).pipe(
+          map((results) => results as TokenInfo),
+          catchError((error) => {
+            console.error('Erro ao buscar todas as informações do token:', error);
+            return of({
+              metadata: { name: 'Erro', symbol: 'Erro' },
+              totalMinted: null,
+              maxSupply: null,
+              mintFee: null,
+            });
+          })
+        )
+      )
     );
   }
 }
