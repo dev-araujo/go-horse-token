@@ -15,7 +15,7 @@ Antes de começar, certifique-se de ter instalado em sua máquina:
 
 ## Endereço do contrato na polygonscan :
 
-1. **[Amoy Testnet](https://amoy.polygonscan.com/address/0xC7faFBAecD64b1448d9FEf1fF138bF1b08cf943b)**
+1. **[Amoy Testnet](https://amoy.polygonscan.com/address/0x674ef763774479234F77b424D015Fc105397f7Ff)**
 
 2. **[Polygon Mainnet](https://polygonscan.com/address/0x7B7758077e51Bc1Be499eF9180f82E16019065cD)**
 

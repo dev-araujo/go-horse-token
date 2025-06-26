@@ -1,15 +1,8 @@
-export interface ITokenService {
-  getMetadataAboutToken(): Promise<string>;
-  getTotalMinted(): Promise<number>;
-  getMaxSupply(): Promise<number>;
-  getMintFee(): Promise<number>;
-}
+import { Network } from "../../config/blockchain.config";
 
-export interface MintTokenReturn {
-  hash: string;
-  amountMinted: string;
-  balanceInGohoAfterMint: string;
-  mintFee: string;
-  totalFeeWei: string;
-  totalFeeEth: string;
+export interface ITokenService {
+  getMetadataAboutToken(network: Network): Promise<string>;
+  getTotalMinted(network: Network): Promise<number>;
+  getMaxSupply(network: Network): Promise<number>;
+  getMintFee(network: Network): Promise<number>;
 }

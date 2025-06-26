@@ -1,5 +1,6 @@
 import { ITokenService } from "./token.interface";
 import { TokenService } from "./token.service";
+import { Network, BlockchainConfig } from "../../config/blockchain.config";
 
 export class TokenController {
   private tokenService: ITokenService;
@@ -8,8 +9,16 @@ export class TokenController {
     this.tokenService = new TokenService();
   }
 
-  async getMetadataAboutToken(): Promise<any> {
-    const metadataUrl = await this.tokenService.getMetadataAboutToken();
+  private getNetwork(network?: string): Network {
+    if (network === "mainnet" || network === "amoy") {
+      return network;
+    }
+    return "mainnet"; // Default to mainnet
+  }
+
+  async getMetadataAboutToken(network?: string): Promise<any> {
+    const selectedNetwork = this.getNetwork(network);
+    const metadataUrl = await this.tokenService.getMetadataAboutToken(selectedNetwork);
     return {
       url: metadataUrl,
       name: "Go Horse",
@@ -21,18 +30,27 @@ export class TokenController {
     };
   }
 
-  async getTotalMinted(): Promise<any> {
-    const totalMinted = await this.tokenService.getTotalMinted();
+  async getTotalMinted(network?: string): Promise<any> {
+    const selectedNetwork = this.getNetwork(network);
+    const totalMinted = await this.tokenService.getTotalMinted(selectedNetwork);
     return { totalMinted };
   }
 
-  async getMaxSupply(): Promise<any> {
-    const maxSupply = await this.tokenService.getMaxSupply();
+  async getMaxSupply(network?: string): Promise<any> {
+    const selectedNetwork = this.getNetwork(network);
+    const maxSupply = await this.tokenService.getMaxSupply(selectedNetwork);
     return { maxSupply };
   }
 
-  async getMintFee(): Promise<any> {
-    const mintFee = await this.tokenService.getMintFee();
+  async getMintFee(network?: string): Promise<any> {
+    const selectedNetwork = this.getNetwork(network);
+    const mintFee = await this.tokenService.getMintFee(selectedNetwork);
     return { mintFeePerToken: mintFee };
+  }
+
+  async getContractAddress(network?: string): Promise<any> {
+    const selectedNetwork = this.getNetwork(network);
+    const address = BlockchainConfig.getTokenAddress(selectedNetwork);
+    return { address };
   }
 }

@@ -1,5 +1,4 @@
 import { Router, Request, Response, NextFunction } from "express";
-import { ethers } from "ethers";
 import { TokenController } from "./token.controller";
 
 const asyncHandler = (
@@ -22,33 +21,46 @@ export class TokenRoutes {
 
   private setupRoutes(): void {
     this.router.get(
-      "/metadata",
+      "/:network/metadata",
       asyncHandler(async (req: Request, res: Response) => {
-        const result = await this.tokenController.getMetadataAboutToken();
+        const network = req.params.network as string | undefined;
+        const result = await this.tokenController.getMetadataAboutToken(network);
         res.status(200).json(result);
       })
     );
 
     this.router.get(
-      "/total-minted",
+      "/:network/total-minted",
       asyncHandler(async (req: Request, res: Response) => {
-        const result = await this.tokenController.getTotalMinted();
+        const network = req.params.network as string | undefined;
+        const result = await this.tokenController.getTotalMinted(network);
         res.status(200).json(result);
       })
     );
 
     this.router.get(
-      "/max-supply",
+      "/:network/max-supply",
       asyncHandler(async (req: Request, res: Response) => {
-        const result = await this.tokenController.getMaxSupply();
+        const network = req.params.network as string | undefined;
+        const result = await this.tokenController.getMaxSupply(network);
         res.status(200).json(result);
       })
     );
 
     this.router.get(
-      "/mint-fee",
+      "/:network/mint-fee",
       asyncHandler(async (req: Request, res: Response) => {
-        const result = await this.tokenController.getMintFee();
+        const network = req.params.network as string | undefined;
+        const result = await this.tokenController.getMintFee(network);
+        res.status(200).json(result);
+      })
+    );
+
+    this.router.get(
+      "/:network/address",
+      asyncHandler(async (req: Request, res: Response) => {
+        const network = req.params.network as string | undefined;
+        const result = await this.tokenController.getContractAddress(network);
         res.status(200).json(result);
       })
     );
