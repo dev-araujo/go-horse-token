@@ -27,7 +27,7 @@ export class TokenService {
 
   getMintFee(): Observable<number | null> {
     return this.http.get<MintFeeResponse>(`${this.apiUrl}/mint-fee`).pipe(
-      map((res) => res.mintFeePerToken),
+      map((res) => Number(res.mintFeePerToken)),
       catchError((error) => {
         console.error('Erro ao buscar taxa de mintagem:', error);
         return of(null);

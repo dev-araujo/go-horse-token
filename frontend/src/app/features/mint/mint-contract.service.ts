@@ -36,9 +36,7 @@ export class MintContractService {
   ): MintTransactionParams {
     const amountInWei = ethers.parseUnits(amount.toString(), 18);
     const feePerTokenWei = ethers.parseEther(mintFeePerTokenEth.toString());
-    const BPS_UNIT = BigInt('1000000000000000000');
-    const wholeTokenAmountForFee = amountInWei / BPS_UNIT;
-    const totalFeeWei = feePerTokenWei * wholeTokenAmountForFee;
+    const totalFeeWei = feePerTokenWei * BigInt(amount);
     return { amountInWei, totalFeeWei };
   }
 
