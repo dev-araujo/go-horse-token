@@ -91,9 +91,9 @@ export class TokenService implements ITokenService {
     }
   }
 
-  async getMintFee(network: Network): Promise<number> {
+  async getMintFee(network: Network): Promise<string> {
     const cacheKey = `mintFee-${network}`;
-    const cached = this.getCachedData<number>(cacheKey);
+    const cached = this.getCachedData<string>(cacheKey);
     if (cached) {
       return cached;
     }
@@ -101,7 +101,7 @@ export class TokenService implements ITokenService {
     try {
       const contract = this.getContract(network);
       const mintFee = await contract.mintFee();
-      const result = Number(ethers.formatEther(mintFee));
+      const result = ethers.formatEther(mintFee);
       this.setCachedData(cacheKey, result);
       return result;
     } catch (error: unknown) {
