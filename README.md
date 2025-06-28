@@ -53,7 +53,7 @@ Esse projeto visa ser uma brincadeira séria, podendo ou não se desenvolver em 
 | Rede                | Endereço do Contrato                                                                                 | Explorer      |
 | ------------------- | ---------------------------------------------------------------------------------------------------- | ------------- |
 | **Polygon Mainnet** | [`0x7B775...065cD`](https://polygonscan.com/address/0x7B7758077e51Bc1Be499eF9180f82E16019065cD)      | PolygonScan   |
-| **Polygon Amoy**    | [`0xC7faF...c943b`](https://amoy.polygonscan.com/address/0xC7faFBAecD64b1448d9FEf1fF138bF1b08cf943b) | Amoy Explorer |
+| **Polygon Amoy**    | [`0x674ef...7f7Ff`](https://amoy.polygonscan.com/address/0x674ef763774479234F77b424D015Fc105397f7Ff) | Amoy Explorer |
 
 ## 🚀 Começando
 
