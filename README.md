@@ -73,7 +73,7 @@ git clone https://github.com/seu-usuario/goho-token.git
 - [DOC](./DOC.md)
 ```
 
-## 🛠️ Stack Tecnológica
+## 🛠️ Stack
 
 [![Solidity](https://img.shields.io/badge/Solidity-363636?logo=solidity&logoColor=white&style=for-the-badge)](https://soliditylang.org/) [![Foundry](https://img.shields.io/badge/Foundry-F5A623?logo=ethereum&logoColor=black&style=for-the-badge)](https://getfoundry.sh/) [![Angular](https://img.shields.io/badge/Angular-DD0031?logo=angular&logoColor=white&style=for-the-badge)](https://angular.io/) [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white&style=for-the-badge)](https://www.typescriptlang.org/) [![Polygon](https://img.shields.io/badge/Polygon-8247E5?logo=polygon&logoColor=white&style=for-the-badge)](https://polygon.technology/) [![Node.js](https://img.shields.io/badge/Node.js-339933?logo=nodedotjs&logoColor=white&style=for-the-badge)](https://nodejs.org/) [![Ethers.js](https://img.shields.io/badge/Ethers.js-3C3C3D?logo=ethereum&logoColor=white&style=for-the-badge)](https://docs.ethers.org/)
 
